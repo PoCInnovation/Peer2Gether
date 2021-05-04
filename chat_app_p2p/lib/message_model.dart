@@ -14,11 +14,17 @@ class Message {
   });
 }
 
-List<Message> chat = [
+List<Message> chats = [
   Message(
     sender: ironMan,
     time: '5h00',
     text: 'Jarvis is broken :(',
     unread: false,
+  ),
+  Message(
+    sender: PoC,
+    time: '10h00',
+    text: 'Proof of community',
+    unread: true,
   ),
 ];
