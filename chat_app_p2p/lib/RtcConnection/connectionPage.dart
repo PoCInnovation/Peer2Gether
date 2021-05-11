@@ -17,9 +17,6 @@ class ConnectionPage extends StatefulWidget {
 class ConnectionPageState extends State<ConnectionPage> {
   bool _offer = false;
   RTCPeerConnection _peerConnection;
-  MediaStream _localStream;
-  RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
-  RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
 
   RTCDataChannelInit _dataChannelDict;
   RTCDataChannel _dataChannel;
@@ -28,24 +25,16 @@ class ConnectionPageState extends State<ConnectionPage> {
 
   @override
   dispose() {
-    _localRenderer.dispose();
-    _remoteRenderer.dispose();
     sdpController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    initRenderers();
     _createPeerConnection().then((pc) {
       _peerConnection = pc;
     });
     super.initState();
-  }
-
-  initRenderers() async {
-    await _localRenderer.initialize();
-    await _remoteRenderer.initialize();
   }
 
   void _createOffer() async {
@@ -126,11 +115,9 @@ class ConnectionPageState extends State<ConnectionPage> {
       ],
     };
 
-    _localStream = await _getUserMedia();
 
     RTCPeerConnection pc =
         await createPeerConnection(configuration, offerSdpConstraints);
-    pc.addStream(_localStream);
     _dataChannelDict = RTCDataChannelInit();
     _dataChannelDict.id = 1;
     _dataChannelDict.ordered = true;
@@ -160,7 +147,6 @@ class ConnectionPageState extends State<ConnectionPage> {
 
     pc.onAddStream = (stream) {
       print('addStream: ' + stream.id);
-      _remoteRenderer.srcObject = stream;
     };
 
     return pc;
@@ -176,30 +162,8 @@ class ConnectionPageState extends State<ConnectionPage> {
 
     MediaStream stream = await navigator.getUserMedia(mediaConstraints);
 
-    _localRenderer.srcObject = stream;
-    RTCVideoView(_localRenderer, mirror: true);
-
     return stream;
   }
-
-  SizedBox videoRenderers() => SizedBox(
-      height: 210,
-      child: Row(children: [
-        Flexible(
-          child: new Container(
-              key: new Key("local"),
-              margin: new EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-              decoration: new BoxDecoration(color: Colors.black),
-              child: new RTCVideoView(_localRenderer)),
-        ),
-        Flexible(
-          child: new Container(
-              key: new Key("remote"),
-              margin: new EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-              decoration: new BoxDecoration(color: Colors.black),
-              child: new RTCVideoView(_remoteRenderer)),
-        )
-      ]));
 
   Row offerAndAnswerButtons() =>
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
@@ -247,7 +211,6 @@ class ConnectionPageState extends State<ConnectionPage> {
         ),
         body: Container(
             child: Column(children: [
-          videoRenderers(),
           offerAndAnswerButtons(),
           sdpCandidatesTF(),
           sdpCandidateButtons(),
