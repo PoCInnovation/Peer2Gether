@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chat_app_p2p/home_screen.dart';
+import 'package:chat_app_p2p/RtcConnection/connectionPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,8 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      home: ConnectionPage(title: 'WebRTC lets learn together'),
     );
   }
 }
-
