@@ -6,8 +6,6 @@ import 'dart:convert';
 import 'package:chat_app_p2p/message_model.dart';
 
 import 'message_model.dart';
-import 'message_model.dart';
-import 'message_model.dart';
 import 'user_model.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -343,6 +341,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   _sendMessageArea() {
+    TextEditingController controller = new TextEditingController();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
       height: 70,
@@ -351,6 +350,7 @@ class _ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           Expanded(
             child: TextField(
+              controller: controller,
               decoration: InputDecoration.collapsed(
                 hintText: 'Send a message...',
               ),
@@ -363,7 +363,7 @@ class _ChatScreenState extends State<ChatScreen> {
             color: Theme.of(context).primaryColor,
             onPressed: () {
               Message msg = Message(
-                  text: "Ping",
+                  text: controller.text,
                   sender: currentUser,
                   time: "now",
                   unread: false);
