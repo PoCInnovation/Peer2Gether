@@ -9,20 +9,13 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'Messages',
           style: TextStyle(
             color: Colors.white,
           ),
         ),
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {},
-          color: Colors.white,
-        ),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.search), onPressed: () {})
-        ],
       ),
       body: ListView.builder(
         itemCount: chats.length,
@@ -57,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                           ]),
                     child: CircleAvatar(
                       radius: 35,
-                      backgroundImage: AssetImage(chat.sender.image),
+                      backgroundImage: AssetImage(chat.sender.imageUrl),
                     ),
                   ),
                   Container(
