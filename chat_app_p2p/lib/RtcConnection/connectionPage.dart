@@ -218,7 +218,7 @@ class ConnectionPageState extends State<ConnectionPage> {
           icon: const Icon(Icons.volume_up),
           tooltip: 'Increase volume by 10',
           onPressed: () {
-            _dataChannel.send(RTCDataChannelMessage('Hello!'));
+            _dataChannel.send(RTCDataChannelMessage(sdpController.text));
           },
         ),
         ])));
