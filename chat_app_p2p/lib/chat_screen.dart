@@ -4,6 +4,7 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:sdp_transform/sdp_transform.dart';
 import 'dart:convert';
 import 'package:chat_app_p2p/message_model.dart';
+import 'package:tuple/tuple.dart';
 
 import 'message_model.dart';
 import 'user_model.dart';
@@ -15,6 +16,111 @@ class ChatScreen extends StatefulWidget {
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
+}
+
+Future<Tuple2<RTCPeerConnection, RTCDataChannel>> initPeerConnection(
+    Function _onDataChannel,
+    Function _onIceCandidate,
+    Function _onIceConnectionState,
+    Function _onAddStream) async {
+  RTCDataChannelInit _dataChannelDict;
+  RTCDataChannel dataChannel;
+
+  Map<String, dynamic> configuration = {
+    "iceServers": [
+      {"url": "stun:stun.l.google.com:19302"},
+    ]
+  };
+  final Map<String, dynamic> offerSdpConstraints = {
+    "mandatory": {
+      "OfferToReceiveAudio": true,
+      "OfferToReceiveVideo": true,
+    },
+    "optional": [],
+  };
+  RTCPeerConnection pc =
+      await createPeerConnection(configuration, offerSdpConstraints);
+
+  _dataChannelDict = RTCDataChannelInit();
+  _dataChannelDict.id = 1;
+  _dataChannelDict.ordered = true;
+  _dataChannelDict.maxRetransmitTime = -1;
+  _dataChannelDict.maxRetransmits = -1;
+  _dataChannelDict.protocol = 'sctp';
+  _dataChannelDict.negotiated = false;
+
+  dataChannel = await pc.createDataChannel('dataChannel', _dataChannelDict);
+
+  pc.onDataChannel = _onDataChannel;
+  pc.onIceCandidate = (e) {
+      if (e.candidate != null) {
+        print(json.encode({
+          'candidate': e.candidate.toString(),
+          'sdpMid': e.sdpMid.toString(),
+          'sdpMlineIndex': e.sdpMlineIndex,
+        }));
+      }
+    };
+
+    pc.onIceConnectionState = (e) {
+      print(e);
+    };
+
+    pc.onAddStream = (stream) {
+      print('addStream: ' + stream.id);
+    };
+
+  return new Tuple2(pc, dataChannel);
+}
+
+Future<String> createOffer(RTCPeerConnection _peerConnection) async {
+  RTCSessionDescription description =
+      await _peerConnection.createOffer({'offerToReceiveVideo': 1});
+  var session = parse(description.sdp);
+
+  print(json.encode(session));
+  _peerConnection.setLocalDescription(description);
+  return json.encode(session).toString();
+}
+
+Future<String> createAnswer(RTCPeerConnection _peerConnection) async {
+  RTCSessionDescription description =
+      await _peerConnection.createAnswer({'offerToReceiveVideo': 1});
+  var session = parse(description.sdp);
+
+  print(json.encode(session));
+  _peerConnection.setLocalDescription(description);
+  return json.encode(session).toString();
+}
+
+void setRemoteDescription(RTCPeerConnection _peerConnection,
+    String _remoteDescription, bool _isOffer) async {
+  dynamic session = await jsonDecode('$_remoteDescription');
+  String sdp = write(session, null);
+  RTCSessionDescription description =
+      new RTCSessionDescription(sdp, _isOffer ? 'answer' : 'offer');
+
+  await _peerConnection.setRemoteDescription(description);
+}
+
+void addCandidate(RTCPeerConnection _peerConnection, String _candidate) async {
+  dynamic session = await jsonDecode('$_candidate');
+  dynamic candidate = new RTCIceCandidate(
+      session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
+
+  await _peerConnection.addCandidate(candidate);
+}
+
+Future<MediaStream> getUserMedia() async {
+  final Map<String, dynamic> mediaConstraints = {
+    'audio': true,
+    'video': {
+      'facingMode': 'user',
+    },
+  };
+
+  MediaStream stream = await navigator.getUserMedia(mediaConstraints);
+  return stream;
 }
 
 class _ChatScreenState extends State<ChatScreen> {
@@ -34,8 +140,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    _createPeerConnection().then((pc) {
-      _peerConnection = pc;
+    initPeerConnection(_onDataChannel, () => {}, () => {}, () => {})
+        .then((data) {
+      _peerConnection = data.item1;
+      _dataChannel = data.item2;
     });
     super.initState();
   }
@@ -82,18 +190,18 @@ class _ChatScreenState extends State<ChatScreen> {
     await _peerConnection.addCandidate(candidate);
   }
 
-  void _onDataChannel(RTCDataChannel dataChannel) {
+  _onDataChannel(RTCDataChannel dataChannel) {
     dataChannel.onMessage = (message) {
       if (message.type == MessageType.text) {
         print("message.text");
-         Message msg = Message(
-                  text: message.text,
-                  sender: currentUser,
-                  time: "now",
-                  unread: false);
-          setState(() {
-            messages.add(msg);
-          });
+        Message msg = Message(
+            text: message.text,
+            sender: currentUser,
+            time: "now",
+            unread: false);
+        setState(() {
+          messages.add(msg);
+        });
       } else {
         // do something with message.binary
       }
@@ -162,7 +270,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   _getUserMedia() async {
     final Map<String, dynamic> mediaConstraints = {
-      'audio': false,
+      'audio': true,
       'video': {
         'facingMode': 'user',
       },
@@ -176,12 +284,13 @@ class _ChatScreenState extends State<ChatScreen> {
   Row offerAndAnswerButtons() =>
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
         new RaisedButton(
-          onPressed: _createOffer,
+          onPressed: () async =>
+              {(await createOffer(_peerConnection)), _offer = true},
           child: Text('Offer'),
           color: Colors.amber,
         ),
         RaisedButton(
-          onPressed: _createAnswer,
+          onPressed: () async => {(await createAnswer(_peerConnection))},
           child: Text('Answer'),
           color: Colors.amber,
         ),
@@ -190,12 +299,15 @@ class _ChatScreenState extends State<ChatScreen> {
   Row sdpCandidateButtons() =>
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
         RaisedButton(
-          onPressed: _setRemoteDescription,
+          onPressed: () async => {
+            setRemoteDescription(_peerConnection, sdpController.text, _offer)
+          },
           child: Text('Set Remote Desc'),
           color: Colors.amber,
         ),
         RaisedButton(
-          onPressed: _addCandidate,
+          onPressed: () async =>
+              {addCandidate(_peerConnection, sdpController.text)},
           child: Text('Add Candidate'),
           color: Colors.amber,
         )

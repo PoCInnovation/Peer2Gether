@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_webrtc: ^0.6.3
   sdp_transform: ^0.3.0
+  tuple: ^2.0.0
 
 dev_dependencies:
   flutter_test:
