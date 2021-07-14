@@ -1,0 +1,2 @@
+de/mintware/barcodescan/BuildConfig.java
+ de.mintware.barcodescan.BuildConfig

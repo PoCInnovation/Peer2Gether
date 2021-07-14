@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">816241667181-gsk1udmrgmq9ge6ak6uc6ljjhnonrumf.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">816241667181</string>
+    <string name="google_api_key" translatable="false">AIzaSyB_tp1BHsPSpvkR4Vg1dkTHCUA81z3RXQE</string>
+    <string name="google_app_id" translatable="false">1:816241667181:android:0bc5342b8e751d187ee364</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB_tp1BHsPSpvkR4Vg1dkTHCUA81z3RXQE</string>
+    <string name="google_storage_bucket" translatable="false">peer-to-gether.appspot.com</string>
+    <string name="project_id" translatable="false">peer-to-gether</string>
+</resources>
