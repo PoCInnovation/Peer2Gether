@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:feat" type="e8cecc67:BranchNodeDescriptor" />
       </path>
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
@@ -15,53 +23,108 @@
         <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:feat" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:test" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
     </expand>
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d932105c-32cf-4237-91d5-ac864d3225b7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="19d04409-377e-4db9-939e-ac02f3187d63" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../chat_app_p2p/android/app/google-services.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../chat_app_p2p/lib/commonService.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/app/google-services.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/iron-man.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/poc.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ChatScreen/chat_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ChatScreen/init_peer_connection.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ChatScreen/offer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ChatScreen/user_media.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Connection.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/RtcConnection/connectionPage.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commonService.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/generate.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/home_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/lecture.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/message_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/scan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/second_step.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/user_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/lib/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/lib/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test_firestore/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../test_firestore/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
   </component>
-  <component name="ProjectId" id="1s491ZaAgp8Y0uQluL9rpY10VU5" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1vJROFlNSYp1gfrEhw237dp3i2m" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="flutter.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Repos\Peer2Gether\peer_to_gether_app\android\app" />
+      <recent name="D:\Repos\Peer2Gether\peer_to_gether_app\android" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration default="true" type="FlutterRunConfigurationType" factoryName="Flutter" editBeforeRun="true">
-      <option name="filePath" value="lib/main.dart" />
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
       <method v="2" />
     </configuration>
   </component>
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d932105c-32cf-4237-91d5-ac864d3225b7" name="Default Changelist" comment="" />
-      <created>1620120780811</created>
+      <changelist id="19d04409-377e-4db9-939e-ac02f3187d63" name="Default Changelist" comment="" />
+      <created>1626278174248</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1620120780811</updated>
+      <updated>1626278174248</updated>
     </task>
     <servers />
   </component>
@@ -77,46 +140,37 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="418" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1621944143133">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="614" y="505" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1626279475690">
+      <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="418" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1621944143133" />
-    <state x="692" y="348" width="535" height="419" key="#com.intellij.ide.util.TreeFileChooserDialog" timestamp="1621943650288">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="614" y="505" key="#com.intellij.fileTypes.FileTypeChooser/0.0.3440.1400@0.0.3440.1400" timestamp="1626279475690" />
+    <state x="100" y="100" width="1534" height="1200" key="AVDManager" timestamp="1626293227764">
+      <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="692" y="348" width="535" height="419" key="#com.intellij.ide.util.TreeFileChooserDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1621943650288" />
-    <state x="590" y="271" width="740" height="569" key="#main.dart" timestamp="1621943935881">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="100" y="100" width="1534" height="1200" key="AVDManager/0.0.3440.1400@0.0.3440.1400" timestamp="1626293227764" />
+    <state x="647" y="458" key="FileChooserDialogImpl" timestamp="1626280712427">
+      <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="590" y="271" width="740" height="569" key="#main.dart/0.27.1920.1053@0.27.1920.1053" timestamp="1621943935881" />
-    <state x="95" y="122" width="1730" height="863" key="AVDManager" timestamp="1621943936231">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="647" y="458" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1626280712427" />
+    <state width="1674" height="398" key="GridCell.Tab.0.bottom" timestamp="1626292832420">
+      <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="95" y="122" width="1730" height="863" key="AVDManager/0.27.1920.1053@0.27.1920.1053" timestamp="1621943936231" />
-    <state x="743" y="313" width="434" height="488" key="FileChooserDialogImpl" timestamp="1621338760270">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state width="1674" height="398" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1626292832420" />
+    <state width="1674" height="398" key="GridCell.Tab.0.center" timestamp="1626292832420">
+      <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="743" y="313" width="434" height="488" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1621338760270" />
-    <state width="1878" height="281" key="GridCell.Tab.0.bottom" timestamp="1621944924142">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state width="1674" height="398" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1626292832420" />
+    <state width="1674" height="398" key="GridCell.Tab.0.left" timestamp="1626292832420">
+      <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1878" height="281" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1621944924142" />
-    <state width="1878" height="281" key="GridCell.Tab.0.center" timestamp="1621944924142">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state width="1674" height="398" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1626292832420" />
+    <state width="1674" height="398" key="GridCell.Tab.0.right" timestamp="1626292832420">
+      <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1878" height="281" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1621944924142" />
-    <state width="1878" height="281" key="GridCell.Tab.0.left" timestamp="1621944924142">
-      <screen x="0" y="27" width="1920" height="1053" />
-    </state>
-    <state width="1878" height="281" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1621944924142" />
-    <state width="1878" height="281" key="GridCell.Tab.0.right" timestamp="1621944924142">
-      <screen x="0" y="27" width="1920" height="1053" />
-    </state>
-    <state width="1878" height="281" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1621944924142" />
-    <state x="449" y="188" width="1022" height="734" key="SettingsEditor" timestamp="1621943606667">
-      <screen x="0" y="27" width="1920" height="1053" />
-    </state>
-    <state x="449" y="188" width="1022" height="734" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1621943606667" />
+    <state width="1674" height="398" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1626292832420" />
   </component>
 </project>

@@ -1,4 +1,0 @@
-io/flutter/plugins/GeneratedPluginRegistrant.java
- io.flutter.plugins.GeneratedPluginRegistrant
-com/poc/test_firestore/test_firestore/BuildConfig.java
- com.poc.test_firestore.test_firestore.BuildConfig
