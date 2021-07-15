@@ -39,10 +39,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="19d04409-377e-4db9-939e-ac02f3187d63" name="Default Changelist" comment="feat: add function to fetch users waiting for a room&#10;&#10;There is now a function fetching the users on waiting list of a room and&#10;returning a list of their names.">
+    <list default="true" id="19d04409-377e-4db9-939e-ac02f3187d63" name="Default Changelist" comment="feat: improve function to fetch waiting users&#10;&#10;The function now returns an array of User (class defined in &#10;user_model.dart) in order for stuff to be easier to process afterwards.&#10;So the firestore part is isolated in a single class and we then work &#10;with our own classes.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/RoomsService.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/RoomsService.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/user_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/user_model.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +113,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626372279574</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat: improve function to fetch waiting users&#10;&#10;The function now returns an array of User (class defined in &#10;user_model.dart) in order for stuff to be easier to process afterwards.&#10;So the firestore part is isolated in a single class and we then work &#10;with our own classes.">
+      <created>1626379204091</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1626379204091</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -135,7 +142,8 @@
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
     <MESSAGE value="feat: add function to fetch users waiting for a room&#10;&#10;There is now a function fetching the users on waiting list of a room and&#10;returning a list of their names." />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add function to fetch users waiting for a room&#10;&#10;There is now a function fetching the users on waiting list of a room and&#10;returning a list of their names." />
+    <MESSAGE value="feat: improve function to fetch waiting users&#10;&#10;The function now returns an array of User (class defined in &#10;user_model.dart) in order for stuff to be easier to process afterwards.&#10;So the firestore part is isolated in a single class and we then work &#10;with our own classes." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: improve function to fetch waiting users&#10;&#10;The function now returns an array of User (class defined in &#10;user_model.dart) in order for stuff to be easier to process afterwards.&#10;So the firestore part is isolated in a single class and we then work &#10;with our own classes." />
   </component>
   <component name="WindowStateProjectService">
     <state x="2664" y="358" width="1071" height="721" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1626366536499">
@@ -188,10 +196,10 @@
     </state>
     <state x="361" y="348" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1626299882054" />
     <state x="2189" y="358" width="1024" height="844" key="SettingsEditor/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626372200178" />
-    <state x="2800" y="422" key="Vcs.Push.Dialog.v2" timestamp="1626372282217">
+    <state x="2800" y="422" key="Vcs.Push.Dialog.v2" timestamp="1626379206536">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
-    <state x="2800" y="422" key="Vcs.Push.Dialog.v2/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626372282217" />
+    <state x="2800" y="422" key="Vcs.Push.Dialog.v2/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626379206536" />
     <state x="3008" y="615" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1626377494006">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>

@@ -34,6 +34,7 @@ class RoomService {
     documents.forEach((doc) {
       users += [User(name: doc.id, message: doc.data()["message"])];
     });
+    print(users);
 
     return users;
   }
