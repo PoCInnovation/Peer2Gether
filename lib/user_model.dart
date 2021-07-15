@@ -6,6 +6,11 @@ class User {
     this.name,
     this.message,
   });
+
+  @override
+  String toString() {
+    return "{name: \"" + name + "\", message: \"" + message + "\"}";
+  }
 }
 
 final User currentUser = User(
