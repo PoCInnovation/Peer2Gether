@@ -2,7 +2,7 @@
     package="com.poc.peerotogether.peer_to_gether_app">
    <application
         android:label="peer_to_gether_app"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

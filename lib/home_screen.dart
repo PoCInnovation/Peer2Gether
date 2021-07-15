@@ -18,6 +18,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:peer_to_gether_app/commonService.dart';
 import 'package:peer_to_gether_app/PhoneUtils.dart';
 import 'package:peer_to_gether_app/RegisterScreen.dart';
+import 'package:peer_to_gether_app/WaitJoinScreen.dart';
 import 'package:peer_to_gether_app/RoomsService.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -210,6 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
               autocorrect: false,
               onSubmitted: (value) {
                 RoomService.join(value, "Tome").then((value) => {print(value)});
+                Navigator.push(context, MaterialPageRoute(builder: (_) => WaitJoinScreen()));
               },
             ),
             SizedBox(
@@ -220,13 +222,13 @@ class _HomeScreenState extends State<HomeScreen> {
               RoomService.create(value);
               Navigator.push(context, MaterialPageRoute(builder: (_) => RoomScreen(roomName: value)));
             }),
-            SizedBox(height: 100),
-            Text("Fetch users waiting to enter the room"),
-            TextField(
-              onSubmitted: (value) async {
-                await RoomService.fetchWaitingUsers(value);
-              },
-            )
+            // SizedBox(height: 100),
+            // Text("Fetch users waiting to enter the room"),
+            // TextField(
+            //   onSubmitted: (value) async {
+            //     await RoomService.fetchWaitingUsers(value);
+            //   },
+            // )
           ],
         )));
     /*
