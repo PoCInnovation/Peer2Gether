@@ -40,37 +40,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19d04409-377e-4db9-939e-ac02f3187d63" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../chat_app_p2p/android/app/google-services.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../chat_app_p2p/lib/commonService.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/app/google-services.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/iron-man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/poc.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ChatScreen/chat_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ChatScreen/init_peer_connection.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ChatScreen/offer.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/ChatScreen/user_media.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Connection.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/RtcConnection/connectionPage.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/commonService.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/generate.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/home_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/lecture.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/message_model.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/scan.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/second_step.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/user_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/lib/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/lib/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat_app_p2p/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../chat_app_p2p/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../test_firestore/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../test_firestore/lib/main.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/PhoneUtils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/RegisterScreen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/RoomsService.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commonService.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commonService.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +65,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1vJROFlNSYp1gfrEhw237dp3i2m" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -98,11 +78,13 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -144,33 +126,45 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="614" y="505" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1626279475690">
+    <state x="614" y="505" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1626300874294">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="614" y="505" key="#com.intellij.fileTypes.FileTypeChooser/0.0.3440.1400@0.0.3440.1400" timestamp="1626279475690" />
+    <state x="614" y="505" key="#com.intellij.fileTypes.FileTypeChooser/0.0.3440.1400@0.0.3440.1400" timestamp="1626300874294" />
     <state x="100" y="100" width="1534" height="1200" key="AVDManager" timestamp="1626293227764">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="100" y="100" width="1534" height="1200" key="AVDManager/0.0.3440.1400@0.0.3440.1400" timestamp="1626293227764" />
-    <state x="647" y="458" key="FileChooserDialogImpl" timestamp="1626280712427">
+    <state x="647" y="458" key="FileChooserDialogImpl" timestamp="1626295029966">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="647" y="458" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1626280712427" />
-    <state width="1674" height="398" key="GridCell.Tab.0.bottom" timestamp="1626292832420">
+    <state x="647" y="458" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1626295029966" />
+    <state width="1674" height="283" key="GridCell.Tab.0.bottom" timestamp="1626306341119">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1674" height="398" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1626292832420" />
-    <state width="1674" height="398" key="GridCell.Tab.0.center" timestamp="1626292832420">
+    <state width="1674" height="283" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1626306341119" />
+    <state width="1674" height="283" key="GridCell.Tab.0.center" timestamp="1626306341119">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1674" height="398" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1626292832420" />
-    <state width="1674" height="398" key="GridCell.Tab.0.left" timestamp="1626292832420">
+    <state width="1674" height="283" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1626306341119" />
+    <state width="1674" height="283" key="GridCell.Tab.0.left" timestamp="1626306341119">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1674" height="398" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1626292832420" />
-    <state width="1674" height="398" key="GridCell.Tab.0.right" timestamp="1626292832420">
+    <state width="1674" height="283" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1626306341119" />
+    <state width="1674" height="283" key="GridCell.Tab.0.right" timestamp="1626306341119">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1674" height="398" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1626292832420" />
+    <state width="1674" height="283" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1626306341119" />
+    <state x="361" y="348" key="SettingsEditor" timestamp="1626299882054">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="361" y="348" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1626299882054" />
+    <state x="435" y="387" key="new project wizard" timestamp="1626295044445">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="435" y="387" key="new project wizard/0.0.3440.1400@0.0.3440.1400" timestamp="1626295044445" />
+    <state x="523" y="320" width="672" height="678" key="search.everywhere.popup" timestamp="1626300863850">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="523" y="320" width="672" height="678" key="search.everywhere.popup/0.0.3440.1400@0.0.3440.1400" timestamp="1626300863850" />
   </component>
 </project>

@@ -4,23 +4,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 class CommonService {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<String> get(String collection, String document, var data) async {
+  Future<String> get(String collection, String document, String field) async {
     String content = "";
     DocumentReference doc =
     db.collection(collection).doc(document);
 
-    content = (await doc.get()).get(data);
+    content = (await doc.get()).get(field);
 
     return content.replaceAll('\\n', '\n');
   }
 
-  Future add(String collection, String document, var data) async {
-    db.collection(collection).doc(document).set(data);
+  Future add(String collection, String document, final field) async {
+    await db.collection(collection).doc(document).set(field);
   }
+
 }
 
 Future registration(String email, String password) async {
-  print('Register');
   try {
     UserCredential userCredential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(

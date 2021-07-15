@@ -15,6 +15,9 @@ import 'user_model.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:peer_to_gether_app/commonService.dart';
+import 'package:peer_to_gether_app/PhoneUtils.dart';
+import 'package:peer_to_gether_app/RegisterScreen.dart';
+import 'package:peer_to_gether_app/RoomsService.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen();
@@ -131,6 +134,7 @@ Future<MediaStream> getUserMedia() async {
 
 class _HomeScreenState extends State<HomeScreen> {
   RTCPeerConnection _peerConnection;
+  String userId = "";
 
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
@@ -155,11 +159,13 @@ class _HomeScreenState extends State<HomeScreen> {
         (stream) => {_remoteRenderer.srcObject = stream}).then((data) {
       _peerConnection = data.item1;
       // _localRenderer.srcObject = data.item3;
-      db
-          .get("commons", "words", "key1")
-          .then((words) => setState(() => {my_words = words}));
     });
-    super.initState();
+    FileUtils.readFromFile("user.txt").then((value) {
+      setState(() {
+        userId = value;
+      });
+    });
+    print("Loged as '$userId' !--------------------------------");
   }
 
   initRenderers() async {
@@ -200,129 +206,162 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Messages',
-          style: TextStyle(
-            color: Colors.white,
-          ),
+        appBar: AppBar(
+          title: Text("Rooms"),
+          centerTitle: true,
         ),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () async => {
-                    (temp = await createOffer(_peerConnection)),
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ConnectionScreen(data: temp))),
-                  }),
-          IconButton(
-            icon: Icon(Icons.account_tree_outlined),
-            onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (_) => Lecture())),
-          )
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: chats.length,
-        itemBuilder: (BuildContext context, int index) {
-          final Message chat = chats[index];
-          return GestureDetector(
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => ChatScreen(
-                          user: chat.sender,
-                        ))),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(2),
-                    decoration: chat.sender.isOnline
-                        ? BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                width: 2,
-                                color: Theme.of(context).primaryColor),
-                            boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5)
-                              ])
-                        : BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5)
-                          ]),
-                    child: CircleAvatar(
-                      radius: 35,
-                      backgroundImage: AssetImage(chat.sender.imageUrl),
+        body: Container(
+            child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 25,
+            ),
+            Text("Join a room"),
+            TextField(
+              autocorrect: false,
+              onSubmitted: (value) {
+                RoomService.join(value, "Tome").then((value) => {print(value)});
+              },
+            ),
+            SizedBox(
+              height: 100,
+            ),
+            Text("Create a room"),
+            TextField(onSubmitted: (value) => {
+              RoomService.create(value)
+            })
+          ],
+        )));
+    /*
+    return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                'Messages',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              actions: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () async => {
+                          (temp = await createOffer(_peerConnection)),
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      ConnectionScreen(data: temp))),
+                        }),
+                IconButton(
+                  icon: Icon(Icons.account_tree_outlined),
+                  onPressed: () => Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => Lecture())),
+                )
+              ],
+            ),
+            body: ListView.builder(
+              itemCount: chats.length,
+              itemBuilder: (BuildContext context, int index) {
+                final Message chat = chats[index];
+                return GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ChatScreen(
+                                user: chat.sender,
+                              ))),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.all(2),
+                          decoration: chat.sender.isOnline
+                              ? BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      width: 2,
+                                      color: Theme.of(context).primaryColor),
+                                  boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 2,
+                                          blurRadius: 5)
+                                    ])
+                              : BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 2,
+                                          blurRadius: 5)
+                                    ]),
+                          child: CircleAvatar(
+                            radius: 35,
+                            backgroundImage: AssetImage(chat.sender.imageUrl),
+                          ),
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.65,
+                            padding: EdgeInsets.only(left: 20),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          chat.sender.name,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        chat.unread
+                                            ? Container(
+                                                margin: const EdgeInsets.only(
+                                                    left: 5),
+                                                width: 7,
+                                                height: 7,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Theme.of(context)
+                                                        .primaryColor),
+                                              )
+                                            : Container(child: null)
+                                      ],
+                                    ),
+                                    Text(
+                                      chat.time,
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.black54,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(chat.text),
+                                )
+                              ],
+                            ))
+                      ],
                     ),
                   ),
-                  Container(
-                      width: MediaQuery.of(context).size.width * 0.65,
-                      padding: EdgeInsets.only(left: 20),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    chat.sender.name,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  chat.unread
-                                      ? Container(
-                                          margin:
-                                              const EdgeInsets.only(left: 5),
-                                          width: 7,
-                                          height: 7,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        )
-                                      : Container(child: null)
-                                ],
-                              ),
-                              Text(
-                                chat.time,
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black54,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(chat.text),
-                          )
-                        ],
-                      ))
-                ],
-              ),
+                );
+              },
             ),
           );
-        },
-      ),
-    );
+          */
   }
 }
