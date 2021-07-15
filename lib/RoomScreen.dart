@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:peer_to_gether_app/RoomsService.dart';
+import 'package:peer_to_gether_app/commonService.dart';
 import 'package:peer_to_gether_app/user_model.dart';
 
 class RoomScreen extends StatefulWidget {
@@ -16,6 +18,8 @@ class RoomScreenState extends State<RoomScreen> {
   @override
   void initState() {
     super.initState();
+
+    RoomService.fetchWaitingUsers(widget.roomName).then((value) => setState(() => {user = value}));
   }
 
   @override
@@ -27,7 +31,7 @@ class RoomScreenState extends State<RoomScreen> {
           IconButton(
               icon: Icon(Icons.autorenew),
               onPressed: () {
-                print('reload');
+                RoomService.fetchWaitingUsers(widget.roomName).then((value) => setState(() => {user = value}));
               })
         ],
       ),
@@ -41,7 +45,7 @@ class RoomScreenState extends State<RoomScreen> {
             trailing: IconButton(
                 icon: Icon(Icons.person_add_alt),
                 onPressed: () {
-                  print('Add');
+                  CommonService().add('rooms/${widget.roomName}/inWait', user[index].name, {'offer': "void"});
                 }),
           );
         },

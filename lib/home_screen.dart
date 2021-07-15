@@ -222,7 +222,11 @@ class _HomeScreenState extends State<HomeScreen> {
             }),
             SizedBox(height: 100),
             Text("Fetch users waiting to enter the room"),
-            TextField(onSubmitted: (value) async { await RoomService.fetchWaitingUsers(value); },)
+            TextField(
+              onSubmitted: (value) async {
+                await RoomService.fetchWaitingUsers(value);
+              },
+            )
           ],
         )));
     /*
