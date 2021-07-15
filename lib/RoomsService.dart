@@ -23,4 +23,17 @@ class RoomService {
         (error, stackTrace) => {result = false});
     return result;
   }
+
+  static Future<List<String>> fetchWaitingUsers(String room) async {
+    CommonService db = CommonService();
+    List<String> array = [];
+
+    var rooms = await db.db.collection("rooms").doc(room).collection("inWait").get();
+    var documents = rooms.docs;
+
+    documents.forEach((doc) { array += [doc.id]; });
+    print(array);
+
+    return array;
+  }
 }
