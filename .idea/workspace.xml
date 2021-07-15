@@ -39,14 +39,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="19d04409-377e-4db9-939e-ac02f3187d63" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="19d04409-377e-4db9-939e-ac02f3187d63" name="Default Changelist" comment="feat: add function to fetch users waiting for a room&#10;&#10;There is now a function fetching the users on waiting list of a room and&#10;returning a list of their names.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/RoomsService.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/RoomsService.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,9 +59,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="ProjectId" id="1vJROFlNSYp1gfrEhw237dp3i2m" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -84,7 +82,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -108,6 +106,14 @@
       <option name="presentableId" value="Default" />
       <updated>1626278174248</updated>
     </task>
+    <task id="LOCAL-00001" summary="feat: add function to fetch users waiting for a room&#10;&#10;There is now a function fetching the users on waiting list of a room and&#10;returning a list of their names.">
+      <created>1626372279574</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1626372279574</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -124,9 +130,12 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="true" />
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
+    <MESSAGE value="feat: add function to fetch users waiting for a room&#10;&#10;There is now a function fetching the users on waiting list of a room and&#10;returning a list of their names." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add function to fetch users waiting for a room&#10;&#10;There is now a function fetching the users on waiting list of a room and&#10;returning a list of their names." />
   </component>
   <component name="WindowStateProjectService">
     <state x="2664" y="358" width="1071" height="721" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1626366536499">
@@ -141,36 +150,52 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="100" y="100" width="1534" height="1200" key="AVDManager/0.0.3440.1400@0.0.3440.1400" timestamp="1626293227764" />
+    <state x="2020" y="100" width="2360" height="1200" key="DiffContextDialog" timestamp="1626378673227">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2020" y="100" width="2360" height="1200" key="DiffContextDialog/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626378673227" />
     <state x="2401" y="471" key="FileChooserDialogImpl" timestamp="1626366541673">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state x="647" y="458" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1626295029966" />
     <state x="2401" y="471" key="FileChooserDialogImpl/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626366541673" />
-    <state width="2514" height="393" key="GridCell.Tab.0.bottom" timestamp="1626371346438">
+    <state width="2514" height="393" key="GridCell.Tab.0.bottom" timestamp="1626378633049">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state width="1674" height="283" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1626306341119" />
-    <state width="2514" height="393" key="GridCell.Tab.0.bottom/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626371346438" />
-    <state width="2514" height="393" key="GridCell.Tab.0.center" timestamp="1626371346438">
+    <state width="2514" height="393" key="GridCell.Tab.0.bottom/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626378633049" />
+    <state width="2514" height="393" key="GridCell.Tab.0.center" timestamp="1626378633049">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state width="1674" height="283" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1626306341119" />
-    <state width="2514" height="393" key="GridCell.Tab.0.center/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626371346438" />
-    <state width="2514" height="393" key="GridCell.Tab.0.left" timestamp="1626371346438">
+    <state width="2514" height="393" key="GridCell.Tab.0.center/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626378633049" />
+    <state width="2514" height="393" key="GridCell.Tab.0.left" timestamp="1626378633048">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state width="1674" height="283" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1626306341119" />
-    <state width="2514" height="393" key="GridCell.Tab.0.left/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626371346438" />
-    <state width="2514" height="393" key="GridCell.Tab.0.right" timestamp="1626371346438">
+    <state width="2514" height="393" key="GridCell.Tab.0.left/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626378633048" />
+    <state width="2514" height="393" key="GridCell.Tab.0.right" timestamp="1626378633049">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state width="1674" height="283" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1626306341119" />
-    <state width="2514" height="393" key="GridCell.Tab.0.right/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626371346438" />
-    <state x="2189" y="358" width="1024" height="844" key="SettingsEditor" timestamp="1626372017929">
+    <state width="2514" height="393" key="GridCell.Tab.0.right/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626378633049" />
+    <state x="2176" y="109" key="MergeDialog" timestamp="1626377523691">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2176" y="109" key="MergeDialog/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626377523691" />
+    <state x="2189" y="358" width="1024" height="844" key="SettingsEditor" timestamp="1626372200178">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state x="361" y="348" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1626299882054" />
-    <state x="2189" y="358" width="1024" height="844" key="SettingsEditor/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626372017929" />
+    <state x="2189" y="358" width="1024" height="844" key="SettingsEditor/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626372200178" />
+    <state x="2800" y="422" key="Vcs.Push.Dialog.v2" timestamp="1626372282217">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2800" y="422" key="Vcs.Push.Dialog.v2/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626372282217" />
+    <state x="3008" y="615" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1626377494006">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="3008" y="615" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.2560.1440/0.360.1920.1080@1920.0.2560.1440" timestamp="1626377494006" />
     <state x="435" y="387" key="new project wizard" timestamp="1626295044445">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>

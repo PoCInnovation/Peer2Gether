@@ -1,4 +1,5 @@
 import 'package:peer_to_gether_app/commonService.dart';
+import 'user_model.dart';
 
 class RoomService {
   static Future<bool> join(String roomName, String userName) async {
@@ -23,18 +24,17 @@ class RoomService {
     return result;
   }
 
-  static Future<List<String>> fetchWaitingUsers(String room) async {
+  static Future<List<User>> fetchWaitingUsers(String room) async {
     CommonService db = CommonService();
-    List<String> names = [];
+    List<User> users = [];
 
     var rooms = await db.db.collection("rooms").doc(room).collection("inWait").get();
     var documents = rooms.docs;
 
     documents.forEach((doc) {
-      names += [doc.id];
+      users += [User(name: doc.id, message: doc.data()["message"])];
     });
-    print(names);
 
-    return names;
+    return users;
   }
 }

@@ -220,6 +220,9 @@ class _HomeScreenState extends State<HomeScreen> {
               RoomService.create(value);
               Navigator.push(context, MaterialPageRoute(builder: (_) => RoomScreen(roomName: value)));
             }),
+            SizedBox(height: 100),
+            Text("Fetch users waiting to enter the room"),
+            TextField(onSubmitted: (value) async { await RoomService.fetchWaitingUsers(value); },)
           ],
         )));
     /*
