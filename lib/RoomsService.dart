@@ -6,13 +6,17 @@ class RoomService {
     CommonService db = CommonService();
     String status = "";
 
-    await db.get("rooms", roomName, "status").then((value) => {
-          status = value,
-        });
+    try {
+      await db.get("rooms", roomName, "status").then((value) => {
+            status = value,
+          });
+    } catch (e) {
+      print('Error in joining: $e');
+    }
     if (status != "open") {
       return false;
     }
-    await db.add("rooms/$roomName/inWait", userName, {"offer": "myOffer"});
+    await db.add("rooms/$roomName/inWait", userName, {"message": "Hey !"});
     return true;
   }
 

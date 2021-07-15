@@ -210,8 +210,8 @@ class _HomeScreenState extends State<HomeScreen> {
             TextField(
               autocorrect: false,
               onSubmitted: (value) {
-                RoomService.join(value, "Tome").then((value) => {print(value)});
-                Navigator.push(context, MaterialPageRoute(builder: (_) => WaitJoinScreen()));
+                RoomService.join(value, "Tom").then((value) => {print(value)});
+                Navigator.push(context, MaterialPageRoute(builder: (_) => WaitJoinScreen(roomName: value)));
               },
             ),
             SizedBox(

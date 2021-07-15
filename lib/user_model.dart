@@ -15,10 +15,10 @@ class User {
 
 final User currentUser = User(
   name: 'PoC',
-  message: 'Just le boss enfaite',
+  message: 'Juste les boss enfaite',
 );
 
 final User ironMan = User(
   name: 'Tonny Stark',
-  message: 'Je te donne mon armure si tu me laisse rentrer',
+  message: 'Je te donne mon armure si tu me laisse entrer',
 );
