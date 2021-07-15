@@ -1,27 +1,19 @@
 class User {
-  final int id;
   final String name;
-  final String imageUrl;
-  final bool isOnline;
+  final String message;
 
   User({
-    this.id,
     this.name,
-    this.imageUrl,
-    this.isOnline,
+    this.message,
   });
 }
 
 final User currentUser = User(
-  id: 0,
   name: 'PoC',
-  imageUrl: 'assets/poc.jpg',
-  isOnline: true,
+  message: 'Just le boss enfaite',
 );
 
 final User ironMan = User(
-  id: 0,
-  name: 'PoC',
-  imageUrl: 'assets/poc.jpg',
-  isOnline: true,
+  name: 'Tonny Stark',
+  message: 'Je te donne mon armure si tu me laisse rentrer',
 );

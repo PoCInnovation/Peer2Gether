@@ -1,4 +1,5 @@
 import 'package:peer_to_gether_app/Connection.dart';
+import 'package:peer_to_gether_app/RoomScreen.dart';
 import 'package:peer_to_gether_app/lecture.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +27,8 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-Future<Tuple3<RTCPeerConnection, RTCDataChannel, MediaStream>>
-    initPeerConnection(Function _onDataChannel, Function _onIceCandidate,
-        Function _onIceConnectionState, Function _onAddStream) async {
+Future<Tuple3<RTCPeerConnection, RTCDataChannel, MediaStream>> initPeerConnection(
+    Function _onDataChannel, Function _onIceCandidate, Function _onIceConnectionState, Function _onAddStream) async {
   RTCDataChannelInit _dataChannelDict;
   RTCDataChannel dataChannel;
 
@@ -44,8 +44,7 @@ Future<Tuple3<RTCPeerConnection, RTCDataChannel, MediaStream>>
     },
     "optional": [],
   };
-  RTCPeerConnection pc =
-      await createPeerConnection(configuration, offerSdpConstraints);
+  RTCPeerConnection pc = await createPeerConnection(configuration, offerSdpConstraints);
 
   _dataChannelDict = RTCDataChannelInit();
   _dataChannelDict.id = 1;
@@ -82,8 +81,7 @@ Future<Tuple3<RTCPeerConnection, RTCDataChannel, MediaStream>>
 }
 
 Future<String> createOffer(RTCPeerConnection _peerConnection) async {
-  RTCSessionDescription description =
-      await _peerConnection.createOffer({'offerToReceiveVideo': 1});
+  RTCSessionDescription description = await _peerConnection.createOffer({'offerToReceiveVideo': 1});
   var session = parse(description.sdp);
 
   print(json.encode(session));
@@ -92,8 +90,7 @@ Future<String> createOffer(RTCPeerConnection _peerConnection) async {
 }
 
 Future<String> createAnswer(RTCPeerConnection _peerConnection) async {
-  RTCSessionDescription description =
-      await _peerConnection.createAnswer({'offerToReceiveVideo': 1});
+  RTCSessionDescription description = await _peerConnection.createAnswer({'offerToReceiveVideo': 1});
   var session = parse(description.sdp);
 
   print(json.encode(session));
@@ -101,20 +98,17 @@ Future<String> createAnswer(RTCPeerConnection _peerConnection) async {
   return json.encode(session).toString();
 }
 
-void setRemoteDescription(RTCPeerConnection _peerConnection,
-    String _remoteDescription, bool _isOffer) async {
+void setRemoteDescription(RTCPeerConnection _peerConnection, String _remoteDescription, bool _isOffer) async {
   dynamic session = await jsonDecode('$_remoteDescription');
   String sdp = write(session, null);
-  RTCSessionDescription description =
-      new RTCSessionDescription(sdp, _isOffer ? 'answer' : 'offer');
+  RTCSessionDescription description = new RTCSessionDescription(sdp, _isOffer ? 'answer' : 'offer');
 
   await _peerConnection.setRemoteDescription(description);
 }
 
 void addCandidate(RTCPeerConnection _peerConnection, String _candidate) async {
   dynamic session = await jsonDecode('$_candidate');
-  dynamic candidate = new RTCIceCandidate(
-      session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
+  dynamic candidate = new RTCIceCandidate(session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
 
   await _peerConnection.addCandidate(candidate);
 }
@@ -127,8 +121,7 @@ Future<MediaStream> getUserMedia() async {
     },
   };
 
-  MediaStream stream =
-      await navigator.mediaDevices.getUserMedia(mediaConstraints);
+  MediaStream stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
   return stream;
 }
 
@@ -155,8 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     initRenderers();
-    initPeerConnection(_onDataChannel, () => {}, () => {},
-        (stream) => {_remoteRenderer.srcObject = stream}).then((data) {
+    initPeerConnection(_onDataChannel, () => {}, () => {}, (stream) => {_remoteRenderer.srcObject = stream})
+        .then((data) {
       _peerConnection = data.item1;
       // _localRenderer.srcObject = data.item3;
     });
@@ -177,11 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
     dataChannel.onMessage = (message) {
       if (message.type == MessageType.text) {
         print("message.text");
-        Message msg = Message(
-            text: message.text,
-            sender: currentUser,
-            time: "now",
-            unread: false);
+        Message msg = Message(text: message.text, sender: currentUser, time: "now", unread: false);
         setState(() {
           messages.add(msg);
         });
@@ -227,12 +216,10 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 100,
             ),
             Text("Create a room"),
-            TextField(onSubmitted: (value) => {
-              RoomService.create(value)
+            TextField(onSubmitted: (value) {
+              RoomService.create(value);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => RoomScreen(roomName: value)));
             }),
-            SizedBox(height: 142),
-            Text("Fetch users waiting to enter the room"),
-            TextField(onSubmitted: (value) async { await RoomService.fetchWaitingUsers(value); },)
           ],
         )));
     /*

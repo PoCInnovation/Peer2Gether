@@ -339,7 +339,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     fontWeight: FontWeight.w400,
                   )),
               TextSpan(text: '\n'),
-              widget.user.isOnline
+              true
                   ? TextSpan(
                 text: 'Online',
                 style: TextStyle(
@@ -373,9 +373,9 @@ class _ChatScreenState extends State<ChatScreen> {
               itemCount: messages.length,
               itemBuilder: (BuildContext context, int index) {
                 final Message message = messages[index];
-                final bool isMe = message.sender.id == currentUser.id;
-                final bool isSameUser = prevUserId == message.sender.id;
-                prevUserId = message.sender.id;
+                final bool isMe = false == false;
+                final bool isSameUser = prevUserId == false;
+                prevUserId = 0;
                 return _chatBubble(message, isMe, isSameUser);
               },
             ),
