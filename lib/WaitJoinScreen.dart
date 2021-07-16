@@ -25,7 +25,9 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
       print(_counter);
       if (_counter > 0) {
         try {
-          db.get('rooms/${widget.roomName}/inWait', 'Tom', 'offer').then((value) {
+          db.get('rooms/${widget.roomName}/inWait', 'Tom', 'offer').catchError((error) {
+            print('Error: $error');
+          }).then((value) {
             if (value.length != 0)
               setState(() {
                 offer = value;

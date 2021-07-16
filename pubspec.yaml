@@ -35,12 +35,12 @@ dependencies:
   tuple: ^2.0.0
   cloud_firestore: ^2.3.0
   firebase_auth: ^2.0.0
-  flutter_launcher_icons: ^0.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-flutter_launcher_icons: ^0.7.5
+  flutter_launcher_icons: ^0.7.5
+  flutter_rename_app: ^1.0.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -49,6 +49,11 @@ flutter_icons:
   ios: true
   image_path: "assets/poc.jpg"
 
+flutter_rename_app:
+  application_name: P2G
+  dart_package_name: peer_to_gether_app
+  application_id: com.poc.peertogether
+  bundle_id: com.poc.peertogether
 
 # The following section is specific to Flutter.
 flutter:

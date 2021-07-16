@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.poc.peerotogether.peer_to_gether_app">
    <application
-        android:label="peer_to_gether_app"
+        android:label="P2G"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
