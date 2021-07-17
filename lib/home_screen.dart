@@ -1,10 +1,12 @@
 import 'package:peer_to_gether_app/Connection.dart';
+import 'package:peer_to_gether_app/CreateRoom.dart';
 import 'package:peer_to_gether_app/RoomScreen.dart';
 import 'package:peer_to_gether_app/lecture.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:peer_to_gether_app/message_model.dart';
 import 'package:peer_to_gether_app/ChatScreen/chat_screen.dart';
+import 'RoomModel.dart';
 
 import 'package:peer_to_gether_app/user_model.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -136,8 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   CommonService db = CommonService();
 
-  String my_words = "";
-
   @override
   dispose() {
     _localRenderer.dispose();
@@ -159,7 +159,12 @@ class _HomeScreenState extends State<HomeScreen> {
         userId = value;
       });
     });
-    print("Loged as '$userId' !--------------------------------");
+    print("Logged as '$userId' !--------------------------------");
+    RoomService.getAllRooms('rooms').then((value) {
+      setState(() {
+        room = value;
+      });
+    });
   }
 
   initRenderers() async {
@@ -192,6 +197,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String temp = 'll';
+  List<Room> room = [];
+  final controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -199,168 +206,47 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: Text("Rooms"),
           centerTitle: true,
-        ),
-        body: Container(
-            child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 25,
-            ),
-            Text("Join a room"),
-            TextField(
-              autocorrect: false,
-              onSubmitted: (value) {
-                RoomService.join(value, "Tom").then((value) => {print(value)});
-                Navigator.push(context, MaterialPageRoute(builder: (_) => WaitJoinScreen(roomName: value)));
-              },
-            ),
-            SizedBox(
-              height: 100,
-            ),
-            Text("Create a room"),
-            TextField(onSubmitted: (value) {
-              RoomService.create(value);
-              Navigator.push(context, MaterialPageRoute(builder: (_) => RoomScreen(roomName: value)));
-            }),
-            // SizedBox(height: 100),
-            // Text("Fetch users waiting to enter the room"),
-            // TextField(
-            //   onSubmitted: (value) async {
-            //     await RoomService.fetchWaitingUsers(value);
-            //   },
-            // )
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.autorenew),
+                onPressed: () {
+                  RoomService.getAllRooms('rooms').then((value) {
+                    setState(() {
+                      room = value;
+                    });
+                  });
+                }),
+            IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => CreateRoom()));
+                }),
           ],
-        )));
-    /*
-    return Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              centerTitle: true,
+        ),
+        body: ListView.builder(
+          itemCount: room.length,
+          controller: controller,
+          itemBuilder: (context, index) {
+            return Card(
+                child: ListTile(
+              leading: Icon(Icons.add_to_home_screen, size: 40),
               title: Text(
-                'Messages',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+                room[index].name,
+                style: TextStyle(fontSize: 25),
               ),
-              actions: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () async => {
-                          (temp = await createOffer(_peerConnection)),
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) =>
-                                      ConnectionScreen(data: temp))),
-                        }),
-                IconButton(
-                  icon: Icon(Icons.account_tree_outlined),
-                  onPressed: () => Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => Lecture())),
-                )
-              ],
-            ),
-            body: ListView.builder(
-              itemCount: chats.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Message chat = chats[index];
-                return GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ChatScreen(
-                                user: chat.sender,
-                              ))),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(2),
-                          decoration: chat.sender.isOnline
-                              ? BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                      width: 2,
-                                      color: Theme.of(context).primaryColor),
-                                  boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 5)
-                                    ])
-                              : BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 5)
-                                    ]),
-                          child: CircleAvatar(
-                            radius: 35,
-                            backgroundImage: AssetImage(chat.sender.imageUrl),
-                          ),
-                        ),
-                        Container(
-                            width: MediaQuery.of(context).size.width * 0.65,
-                            padding: EdgeInsets.only(left: 20),
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          chat.sender.name,
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        chat.unread
-                                            ? Container(
-                                                margin: const EdgeInsets.only(
-                                                    left: 5),
-                                                width: 7,
-                                                height: 7,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Theme.of(context)
-                                                        .primaryColor),
-                                              )
-                                            : Container(child: null)
-                                      ],
-                                    ),
-                                    Text(
-                                      chat.time,
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.black54,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(chat.text),
-                                )
-                              ],
-                            ))
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          );
-          */
+              subtitle: Text(
+                '${room[index].status} ${room[index].numberOfUser}/${room[index].maxUser}',
+                style: TextStyle(fontSize: 15),
+              ),
+              trailing: IconButton(
+                  icon: Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    RoomService.join(room[index].name, 'Tom', "let me in");
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => WaitJoinScreen(roomName: room[index].name)));
+                  }),
+            ));
+          },
+        ));
   }
 }

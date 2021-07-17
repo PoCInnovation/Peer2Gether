@@ -19,7 +19,7 @@ class RoomScreenState extends State<RoomScreen> {
   void initState() {
     super.initState();
 
-    RoomService.fetchWaitingUsers(widget.roomName).then((value) => setState(() => {user = value}));
+    RoomService.getAllUsers('rooms/${widget.roomName}/inWait').then((value) => setState(() => {user = value}));
   }
 
   @override
@@ -31,7 +31,8 @@ class RoomScreenState extends State<RoomScreen> {
           IconButton(
               icon: Icon(Icons.autorenew),
               onPressed: () {
-                RoomService.fetchWaitingUsers(widget.roomName).then((value) => setState(() => {user = value}));
+                RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
+                    .then((value) => setState(() => {user = value}));
               })
         ],
       ),

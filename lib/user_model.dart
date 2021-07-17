@@ -7,10 +7,10 @@ class User {
     this.message,
   });
 
-  // @override
-  // String toString() {
-  //   return "{name: \"" + name + "\", message: \"" + message + "\"}";
-  // }
+// @override
+// String toString() {
+//   return "{name: \"" + name + "\", message: \"" + message + "\"}";
+// }
 }
 
 final User currentUser = User(
