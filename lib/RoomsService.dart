@@ -25,7 +25,7 @@ class RoomService {
     CommonService db = CommonService();
     bool result = true;
 
-    await db.add("rooms", roomName, {"Status": "Open", "NumberOfUser": 1, "MaxUsers": maxUsers})..onError((error, stackTrace) => {result = false});
+    await db.add("rooms", roomName, {"Status": "Open", "NumberOfUser": 1, "MaxUsers": maxUsers}).onError((error, stackTrace) => {result = false});
     return result;
   }
 

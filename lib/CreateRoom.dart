@@ -75,7 +75,12 @@ class CreateRoomState extends State<CreateRoom> {
                   child: ElevatedButton(
                     onPressed: () {
                       RoomService.create(roomName, maxUser);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => RoomScreen(roomName: roomName,)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => RoomScreen(
+                                    roomName: roomName,
+                                  )));
                     },
                     child: Text("Create"),
                   ),

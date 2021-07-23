@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:peer_to_gether_app/RoomsService.dart';
 import 'dart:async';
 
+import 'message_model.dart';
+import 'user_model.dart';
+
 import 'package:peer_to_gether_app/commonService.dart';
+import 'package:peer_to_gether_app/RtcConnection/RtcServices.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 class WaitJoinScreen extends StatefulWidget {
   final String roomName;
@@ -19,21 +24,65 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
   CommonService db = CommonService();
   String message = "Waiting owner approbation\n";
   String offer = "";
+  String answer = "";
+  RTCPeerConnection _peerConnection;
+
+  RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
+  RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
+
+  @override
+  dispose() {
+    _localRenderer.dispose();
+    _remoteRenderer.dispose();
+    super.dispose();
+  }
+
+  initRenderers() async {
+    await _localRenderer.initialize();
+    await _remoteRenderer.initialize();
+  }
+
+  _onDataChannel(RTCDataChannel dataChannel) {
+    dataChannel.onMessage = (message) {
+      if (message.type == MessageType.text) {
+        print("message.text");
+        Message msg = Message(text: message.text, sender: currentUser, time: "now", unread: false);
+        setState(() {
+          messages.add(msg);
+        });
+      } else {
+        // do something with message.binary
+      }
+    };
+    // or alternatively:
+    dataChannel.messageStream.listen((message) {
+      if (message.type == MessageType.text) {
+        print(message.text);
+      } else {
+        // do something with message.binary
+      }
+    });
+
+    dataChannel.send(RTCDataChannelMessage('Hello !'));
+  }
+
+
 
   void startTimer() async {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       print(_counter);
       if (_counter > 0) {
         try {
-          db.get('rooms/${widget.roomName}/inWait', 'Tom', 'offer').catchError((error) {
-            print('Error: $error');
-          }).then((value) {
+          db.get('rooms/${widget.roomName}/inWait', 'Tom', 'offer').then((value) async {
             if (value.length != 0)
               setState(() {
                 offer = value;
                 message = "Joining";
               });
             _timer.cancel();
+            await rtcService().setRemoteDescription(_peerConnection, offer, false);
+            await rtcService().createAnswer(_peerConnection).then((value) => db.add('rooms/${widget.roomName}/inWait', 'Tom',
+                {"answer": value}));
           });
         } catch (e) {
           print('Error in joining: $e');
@@ -48,6 +97,13 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
   @override
   void initState() {
     super.initState();
+    initRenderers();
+    rtcService()
+        .initPeerConnection(_onDataChannel, () => {}, () => {}, (stream) => {_remoteRenderer.srcObject = stream})
+        .then((data) {
+      _peerConnection = data.item1;
+      // _localRenderer.srcObject = data.item3;
+    });
     startTimer();
   }
 

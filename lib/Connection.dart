@@ -3,6 +3,7 @@ import 'package:peer_to_gether_app/generate.dart';
 
 class ConnectionScreen extends StatelessWidget {
   final String data;
+
   ConnectionScreen({this.data});
 
   @override
@@ -17,13 +18,7 @@ class ConnectionScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             ElevatedButton(
-                onPressed: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => GeneratePage(
-                              link: data
-                          )))},
+                onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (_) => GeneratePage(link: data)))},
                 child: Text('Generation'))
           ],
         ),
