@@ -57,24 +57,26 @@ class _HomeScreenState extends State<HomeScreen> {
           itemBuilder: (context, index) {
             return Card(
                 child: ListTile(
-              leading: Icon(Icons.add_to_home_screen, size: 40),
-              title: Text(
-                room[index].name,
-                style: TextStyle(fontSize: 25),
-              ),
-              subtitle: Text(
-                '${room[index].status} ${room[index].numberOfUser}/${room[index].maxUser}',
-                style: TextStyle(fontSize: 15),
-              ),
-              trailing: IconButton(
-                  icon: Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    RoomService.join(room[index].name, 'Tom', "Hey boy");
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => WaitJoinScreen(roomName: room[index].name)));
-                  }),
-            ));
-          },
-        ));
+                  leading: Icon(Icons.add_to_home_screen, size: 40),
+                  title: Text(
+                    room[index].name,
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  subtitle: Text(
+                    '${room[index].status} ${room[index].numberOfUser}/${room[index].maxUser}',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  trailing: IconButton(
+                      icon: Icon(Icons.arrow_forward),
+                      onPressed: () {
+                        RoomService.join(room[index].name, 'Tom', "Hey boy");
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (_) => WaitJoinScreen(roomName: room[index].name))
+                        );
+                      }),
+                )
+            );},
+        )
+    );
   }
 }

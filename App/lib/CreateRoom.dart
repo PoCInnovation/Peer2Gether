@@ -25,6 +25,11 @@ class CreateRoomState extends State<CreateRoom> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      roomName = value;
+                    });
+                  },
                   decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Name of the room"),
                   textInputAction: TextInputAction.next,
                   onSubmitted: (value) {
