@@ -1,10 +1,14 @@
 class User {
   final String name;
   final String message;
+  final String answer;
+  final String iceCandidate;
 
   User({
     this.name,
     this.message,
+    this.answer,
+    this.iceCandidate
   });
 
 // @override

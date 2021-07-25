@@ -86,7 +86,11 @@ class RoomScreenState extends State<RoomScreen> {
               icon: Icon(Icons.autorenew),
               onPressed: () {
                 RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
-                    .then((value) => setState(() => {user = value}));
+                    .then((value) => {
+                      setState(() => {user = value}),
+                      setRemoteDescription( _peerConnection, value[0].answer, true),
+                      addCandidate( _peerConnection, value[0].iceCandidate),
+                    });
               })
         ],
       ),

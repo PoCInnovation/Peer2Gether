@@ -37,7 +37,7 @@ class RoomService {
     var documents = rooms.docs;
 
     documents.forEach((doc) {
-      users += [User(name: doc.id, message: doc.data()["message"])];
+      users += [User(name: doc.id, message: doc.data()["message"], answer: doc.data()["answer"], iceCandidate: doc.data()["iceCandidate"])];
     });
 
     return users;
