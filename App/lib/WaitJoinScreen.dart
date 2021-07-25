@@ -26,8 +26,9 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
   String message = "Waiting owner approbation\n";
   String offer = "";
   String answer = "";
-  List<String> iceCandidates = [];
   RTCPeerConnection _peerConnection;
+
+  bool done = false;
 
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
@@ -48,7 +49,11 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
     dataChannel.onMessage = (message) {
       if (message.type == MessageType.text) {
         print("message.text");
-        Message msg = Message(text: message.text, sender: currentUser, time: "now", unread: false);
+        Message msg = Message(
+            text: message.text,
+            sender: currentUser,
+            time: "now",
+            unread: false);
         setState(() {
           messages.add(msg);
         });
@@ -68,29 +73,25 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
     dataChannel.send(RTCDataChannelMessage('Hello !'));
   }
 
-
-
   void startTimer() async {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       print(_counter);
       if (_counter > 0) {
         try {
-          db.get('rooms/${widget.roomName}/inWait', 'Tom', 'offer').then((value) async {
+          db
+              .get('rooms/${widget.roomName}/inWait', 'Tom', 'offer')
+              .then((value) async {
             if (value.length != 0)
               setState(() {
                 offer = value;
                 message = "Joining";
               });
             _timer.cancel();
-            await rtcService().setRemoteDescription(_peerConnection, offer, false);
+            await rtcService()
+                .setRemoteDescription(_peerConnection, offer, false);
             await rtcService().createAnswer(_peerConnection).then((value) => {
-              if (iceCandidates.length != 0) {
-                print(iceCandidates[0]),
-                db.add('rooms/${widget.roomName}/inWait', 'Tom', {"answer": value, "iceCandidates": iceCandidates[0]})
-              } else {
-                print("didn t had any candidates")
-              }
-            });
+                      answer = value
+                });
           });
         } catch (e) {
           print('Error in joining: $e');
@@ -107,14 +108,22 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
     super.initState();
     initRenderers();
     rtcService()
-        .initPeerConnection(_onDataChannel, (e) => {
-          if (e.candidate != null) {
-            iceCandidates.add(json.encode({
-              'candidate': e.candidate.toString(),
-              'sdpMid': e.sdpMid.toString(),
-              'sdpMlineIndex': e.sdpMlineIndex,
-          }))
-      }}, () => {}, (stream) => {_remoteRenderer.srcObject = stream})
+        .initPeerConnection(
+            _onDataChannel,
+            (e) => {
+                  if (e.candidate != null && !done)
+                    {
+                       db.add('rooms/${widget.roomName}/inWait', 'Tom',
+                          {"answer": answer, "iceCandidate": json.encode({
+                        'candidate': e.candidate.toString(),
+                        'sdpMid': e.sdpMid.toString(),
+                        'sdpMlineIndex': e.sdpMlineIndex,
+                      }).toString()}),
+                      done = true,
+                    }
+                },
+            () => {},
+            (stream) => {_remoteRenderer.srcObject = stream})
         .then((data) {
       _peerConnection = data.item1;
       // _localRenderer.srcObject = data.item3;
@@ -135,7 +144,9 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
         child: Column(
           children: <Widget>[
             Center(child: Text(message, style: TextStyle(fontSize: 20))),
-            Container(padding: EdgeInsets.only(top: 25.0), child: CircularProgressIndicator())
+            Container(
+                padding: EdgeInsets.only(top: 25.0),
+                child: CircularProgressIndicator())
           ],
         ),
       ),
