@@ -38,7 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     initRenderers();
-    initPeerConnection(_onDataChannel, () => {}, () => {},
+    initPeerConnection(_onDataChannel, null, null,
             (stream) => {_remoteRenderer.srcObject = stream}).then((data) {
       _peerConnection = data.item1;
       _dataChannel = data.item2;

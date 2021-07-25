@@ -87,11 +87,8 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
                 message = "Joining";
               });
             _timer.cancel();
-            await rtcService()
-                .setRemoteDescription(_peerConnection, offer, false);
-            await rtcService().createAnswer(_peerConnection).then((value) => {
-                      answer = value
-                });
+            await rtcService().setRemoteDescription(_peerConnection, offer, false);
+            await rtcService().createAnswer(_peerConnection).then((value) => { answer = value });
           });
         } catch (e) {
           print('Error in joining: $e');
@@ -110,17 +107,16 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
     rtcService()
         .initPeerConnection(
             _onDataChannel,
-            (e) => {
-                  if (e.candidate != null && !done)
-                    {
-                       db.add('rooms/${widget.roomName}/inWait', 'Tom',
-                          {"answer": answer, "iceCandidate": json.encode({
-                        'candidate': e.candidate.toString(),
-                        'sdpMid': e.sdpMid.toString(),
-                        'sdpMlineIndex': e.sdpMlineIndex,
-                      }).toString()}),
-                      done = true,
-                    }
+            (e) {
+              if (e.candidate != null && !done) {
+                db.add('rooms/${widget.roomName}/inWait', 'Tom',
+                    {"answer": answer, "iceCandidate": json.encode({
+                      'candidate': e.candidate.toString(),
+                      'sdpMid': e.sdpMid.toString(),
+                      'sdpMlineIndex': e.sdpMlineIndex,
+                    }).toString()});
+                done = true;
+              }
                 },
             () => {},
             (stream) => {_remoteRenderer.srcObject = stream})

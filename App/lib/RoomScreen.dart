@@ -68,7 +68,7 @@ class RoomScreenState extends State<RoomScreen> {
     super.initState();
     initRenderers();
     rtcService()
-        .initPeerConnection(_onDataChannel, () => {}, () => {}, (stream) => {_remoteRenderer.srcObject = stream})
+        .initPeerConnection(_onDataChannel, null, null, (stream) => {_remoteRenderer.srcObject = stream})
         .then((data) {
       _peerConnection = data.item1;
       // _localRenderer.srcObject = data.item3;
