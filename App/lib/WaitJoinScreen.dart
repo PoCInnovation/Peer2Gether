@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:peer_to_gether_app/RoomsService.dart';
 import 'dart:async';
+import 'dart:convert';
 
 import 'message_model.dart';
 import 'user_model.dart';
@@ -25,6 +26,7 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
   String message = "Waiting owner approbation\n";
   String offer = "";
   String answer = "";
+  List<String> iceCandidates = [];
   RTCPeerConnection _peerConnection;
 
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
@@ -81,8 +83,14 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
               });
             _timer.cancel();
             await rtcService().setRemoteDescription(_peerConnection, offer, false);
-            await rtcService().createAnswer(_peerConnection).then((value) => db.add('rooms/${widget.roomName}/inWait', 'Tom',
-                {"answer": value}));
+            await rtcService().createAnswer(_peerConnection).then((value) => {
+              if (iceCandidates.length != 0) {
+                print(iceCandidates[0]),
+                db.add('rooms/${widget.roomName}/inWait', 'Tom', {"answer": value, "iceCandidates": iceCandidates[0]})
+              } else {
+                print("didn t had any candidates")
+              }
+            });
           });
         } catch (e) {
           print('Error in joining: $e');
@@ -99,7 +107,14 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
     super.initState();
     initRenderers();
     rtcService()
-        .initPeerConnection(_onDataChannel, () => {}, () => {}, (stream) => {_remoteRenderer.srcObject = stream})
+        .initPeerConnection(_onDataChannel, (e) => {
+          if (e.candidate != null) {
+            iceCandidates.add(json.encode({
+              'candidate': e.candidate.toString(),
+              'sdpMid': e.sdpMid.toString(),
+              'sdpMlineIndex': e.sdpMlineIndex,
+          }))
+      }}, () => {}, (stream) => {_remoteRenderer.srcObject = stream})
         .then((data) {
       _peerConnection = data.item1;
       // _localRenderer.srcObject = data.item3;
