@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peer_to_gether_app/RoomsService.dart';
+import 'package:peer_to_gether_app/RoomScreen.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -49,11 +49,7 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
     dataChannel.onMessage = (message) {
       if (message.type == MessageType.text) {
         print("message.text");
-        Message msg = Message(
-            text: message.text,
-            sender: currentUser,
-            time: "now",
-            unread: false);
+        Message msg = Message(text: message.text, sender: currentUser, time: "now", unread: false);
         setState(() {
           messages.add(msg);
         });
@@ -78,17 +74,16 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
       print(_counter);
       if (_counter > 0) {
         try {
-          db
-              .get('rooms/${widget.roomName}/inWait', 'Tom', 'offer')
-              .then((value) async {
+          db.get('rooms/${widget.roomName}/inWait', 'Tom', 'offer').then((value) async {
             if (value.length != 0)
               setState(() {
                 offer = value;
                 message = "Joining";
               });
             _timer.cancel();
-            await rtcService().setRemoteDescription(_peerConnection, offer, false);
-            await rtcService().createAnswer(_peerConnection).then((value) => { answer = value });
+            rtcService().setRemoteDescription(_peerConnection, offer, false);
+            await rtcService().createAnswer(_peerConnection).then((value) => {answer = value});
+            Navigator.push(context, MaterialPageRoute(builder: (_) => RoomScreen(roomName: widget.roomName)));
           });
         } catch (e) {
           print('Error in joining: $e');
@@ -104,23 +99,19 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
   void initState() {
     super.initState();
     initRenderers();
-    rtcService()
-        .initPeerConnection(
-            _onDataChannel,
-            (e) {
-              if (e.candidate != null && !done) {
-                db.add('rooms/${widget.roomName}/inWait', 'Tom',
-                    {"answer": answer, "iceCandidate": json.encode({
-                      'candidate': e.candidate.toString(),
-                      'sdpMid': e.sdpMid.toString(),
-                      'sdpMlineIndex': e.sdpMlineIndex,
-                    }).toString()});
-                done = true;
-              }
-                },
-            () => {},
-            (stream) => {_remoteRenderer.srcObject = stream})
-        .then((data) {
+    rtcService().initPeerConnection(_onDataChannel, (e) {
+      if (e.candidate != null && !done) {
+        db.add('rooms/${widget.roomName}/inWait', 'Tom', {
+          "answer": answer,
+          "iceCandidate": json.encode({
+            'candidate': e.candidate.toString(),
+            'sdpMid': e.sdpMid.toString(),
+            'sdpMlineIndex': e.sdpMlineIndex,
+          }).toString()
+        });
+        done = true;
+      }
+    }, () => {}, (stream) => {_remoteRenderer.srcObject = stream}).then((data) {
       _peerConnection = data.item1;
       // _localRenderer.srcObject = data.item3;
     });
@@ -131,21 +122,19 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(
-        title: Text("Joining..."),
-        centerTitle: true,
-      ),
-      body: Container(
-        padding: EdgeInsets.only(top: 150.0),
-        child: Column(
-          children: <Widget>[
-            Center(child: Text(message, style: TextStyle(fontSize: 20))),
-            Container(
-                padding: EdgeInsets.only(top: 25.0),
-                child: CircularProgressIndicator())
-          ],
-        ),
-      ),
-    ));
+          appBar: AppBar(
+            title: Text("Joining..."),
+            centerTitle: true,
+          ),
+          body: Container(
+            padding: EdgeInsets.only(top: 150.0),
+            child: Column(
+              children: <Widget>[
+                Center(child: Text(message, style: TextStyle(fontSize: 20))),
+                Container(padding: EdgeInsets.only(top: 25.0), child: CircularProgressIndicator())
+              ],
+            ),
+          ),
+        ));
   }
 }

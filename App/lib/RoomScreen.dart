@@ -85,11 +85,8 @@ class RoomScreenState extends State<RoomScreen> {
           IconButton(
               icon: Icon(Icons.autorenew),
               onPressed: () {
-                RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
-                    .then((value) => {
-                      setState(() => {user = value}),
-                      setRemoteDescription( _peerConnection, value[0].answer, true),
-                      addCandidate( _peerConnection, value[0].iceCandidate),
+                RoomService.getAllUsers('rooms/${widget.roomName}/inWait').then((value) => {
+                      setState(() => {user = value})
                     });
               })
         ],
@@ -98,16 +95,12 @@ class RoomScreenState extends State<RoomScreen> {
         itemCount: user.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Icon(Icons.person),
-            title: Text('${user[index].name}'),
-            subtitle: Text('${user[index].message}'),
-            trailing: IconButton(
-                icon: Icon(Icons.person_add_alt),
-                onPressed: () {
-                  createOffer(_peerConnection).then((value) =>
-                      CommonService().add('rooms/${widget.roomName}/inWait', user[index].name, {'offer': value}));
-                }),
-          );
+              leading: Icon(Icons.person),
+              title: Text('${user[index].name}'),
+              subtitle: Text('${user[index].message}'),
+              trailing: IconButton(
+                  icon: Icon(Icons.person_add_alt),
+                  onPressed: () => RoomService.connectUser(widget.roomName, _peerConnection, user[index])));
         },
       ),
     );

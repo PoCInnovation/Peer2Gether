@@ -1,6 +1,8 @@
 import 'package:peer_to_gether_app/RoomModel.dart';
 import 'package:peer_to_gether_app/commonService.dart';
 import 'user_model.dart';
+import 'package:peer_to_gether_app/ChatScreen/offer.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 class RoomService {
   static Future<bool> join(String roomName, String userName, String message) async {
@@ -25,7 +27,8 @@ class RoomService {
     CommonService db = CommonService();
     bool result = true;
 
-    await db.add("rooms", roomName, {"Status": "Open", "NumberOfUser": 1, "MaxUsers": maxUsers}).onError((error, stackTrace) => {result = false});
+    await db.add("rooms", roomName, {"Status": "Open", "NumberOfUser": 1, "MaxUsers": maxUsers}).onError(
+        (error, stackTrace) => {result = false});
     return result;
   }
 
@@ -37,7 +40,13 @@ class RoomService {
     var documents = rooms.docs;
 
     documents.forEach((doc) {
-      users += [User(name: doc.id, message: doc.data()["message"], answer: doc.data()["answer"], iceCandidate: doc.data()["iceCandidate"])];
+      users += [
+        User(
+            name: doc.id,
+            message: doc.data()["message"],
+            answer: doc.data()["answer"],
+            iceCandidate: doc.data()["iceCandidate"])
+      ];
     });
 
     return users;
@@ -61,5 +70,20 @@ class RoomService {
     });
 
     return users;
+  }
+
+  static Future connectUser(String roomName, RTCPeerConnection _peerConnection, User user) async {
+    await createOffer(_peerConnection)
+        .then((value) => CommonService().add('rooms/${roomName}/inWait', user.name, {'offer': value}));
+
+    String answer = "";
+    String iceCandidate = "";
+
+    for (int i = 0; (answer.length == 0 || iceCandidate.length == 0) && i < 3; i++) {
+      answer = await CommonService().get("rooms/${roomName}/inWait", user.name, "answer");
+      iceCandidate = await CommonService().get("rooms/${roomName}/inWait", user.name, "iceCandidate");
+    }
+    setRemoteDescription(_peerConnection, answer, true);
+    addCandidate(_peerConnection, user.iceCandidate);
   }
 }
