@@ -81,7 +81,7 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
                 message = "Joining";
               });
             _timer.cancel();
-            rtcService().setRemoteDescription(_peerConnection, offer, false);
+            await rtcService().setRemoteDescription(_peerConnection, offer, false);
             await rtcService().createAnswer(_peerConnection).then((value) => {answer = value});
             Navigator.push(context, MaterialPageRoute(builder: (_) => RoomScreen(roomName: widget.roomName)));
           });
