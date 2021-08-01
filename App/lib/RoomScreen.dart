@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peer_to_gether_app/ChatScreen/offer.dart';
+import 'package:peer_to_gether_app/RoomModel.dart';
 import 'package:peer_to_gether_app/RoomsService.dart';
 import 'package:peer_to_gether_app/commonService.dart';
 import 'package:peer_to_gether_app/user_model.dart';
@@ -78,31 +79,34 @@ class RoomScreenState extends State<RoomScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.roomName),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.autorenew),
-              onPressed: () {
-                RoomService.getAllUsers('rooms/${widget.roomName}/inWait').then((value) => {
-                      setState(() => {user = value})
-                    });
-              })
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: user.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-              leading: Icon(Icons.person),
-              title: Text('${user[index].name}'),
-              subtitle: Text('${user[index].message}'),
-              trailing: IconButton(
-                  icon: Icon(Icons.person_add_alt),
-                  onPressed: () => RoomService.connectUser(widget.roomName, _peerConnection, user[index])));
-        },
-      ),
-    );
+    return RefreshIndicator(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(widget.roomName),
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.autorenew),
+                  onPressed: () {
+                    RoomService.getAllUsers('rooms/${widget.roomName}/inWait').then((value) => {
+                          setState(() => {user = value})
+                        });
+                  })
+            ],
+          ),
+          body: ListView.builder(
+            itemCount: user.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('${user[index].name}'),
+                  subtitle: Text('${user[index].message}'),
+                  trailing: IconButton(
+                      icon: Icon(Icons.person_add_alt),
+                      onPressed: () => RoomService.connectUser(widget.roomName, _peerConnection, user[index])));
+            },
+          ),
+        ),
+        onRefresh: () =>
+            RoomService.getAllUsers('rooms/${widget.roomName}/inWait').then((value) => setState(() => {user = value})));
   }
 }

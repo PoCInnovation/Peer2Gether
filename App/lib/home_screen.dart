@@ -1,6 +1,7 @@
 import 'package:peer_to_gether_app/CreateRoom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:peer_to_gether_app/commonService.dart';
 import 'RoomModel.dart';
 
 import 'package:peer_to_gether_app/WaitJoinScreen.dart';
@@ -31,32 +32,33 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Rooms"),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.autorenew),
-                onPressed: () {
-                  RoomService.getAllRooms('rooms').then((value) {
-                    setState(() {
-                      room = value;
-                    });
-                  });
-                }),
-            IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => CreateRoom()));
-                }),
-          ],
-        ),
-        body: ListView.builder(
-          itemCount: room.length,
-          itemBuilder: (context, index) {
-            return Card(
-                child: ListTile(
+    return RefreshIndicator(
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text("Rooms"),
+              centerTitle: true,
+              actions: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.autorenew),
+                    onPressed: () {
+                      RoomService.getAllRooms('rooms').then((value) {
+                        setState(() {
+                          room = value;
+                        });
+                      });
+                    }),
+                IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => CreateRoom()));
+                    }),
+              ],
+            ),
+            body: ListView.builder(
+              itemCount: room.length,
+              itemBuilder: (context, index) {
+                return Card(
+                    child: ListTile(
                   leading: Icon(Icons.add_to_home_screen, size: 40),
                   title: Text(
                     room[index].name,
@@ -71,12 +73,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         RoomService.join(room[index].name, 'Tom', "Hey boy");
                         Navigator.push(
-                            context, MaterialPageRoute(builder: (_) => WaitJoinScreen(roomName: room[index].name))
-                        );
+                            context, MaterialPageRoute(builder: (_) => WaitJoinScreen(roomName: room[index].name)));
                       }),
-                )
-            );},
-        )
-    );
+                ));
+              },
+            )),
+        onRefresh: () => RoomService.getAllRooms('rooms').then((value) {
+              setState(() {
+                room = value;
+              });
+            }));
   }
 }
