@@ -37,8 +37,7 @@ class rtcService {
 
     pc.onDataChannel = _onDataChannel;
     // pc.addStream(stream);
-    if (_onIceCandidate != null)
-      pc.onIceCandidate = _onIceCandidate;
+    if (_onIceCandidate != null) pc.onIceCandidate = _onIceCandidate;
 
     pc.onIceConnectionState = (e) {
       print(e);

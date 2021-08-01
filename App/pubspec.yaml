@@ -35,6 +35,7 @@ dependencies:
   tuple: ^2.0.0
   cloud_firestore: ^2.3.0
   firebase_auth: ^2.0.0
+  flutter_native_splash: ^0.3.2
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +49,10 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/poc.jpg"
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: "assets/poc.jpg"
 
 flutter_rename_app:
   application_name: P2G

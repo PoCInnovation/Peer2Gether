@@ -16,6 +16,10 @@ class CommonService {
   Future add(String collection, String document, final field) async {
     await db.collection(collection).doc(document).set(field);
   }
+
+  Future deleteDocument(String collection, String document) async {
+    await db.collection(collection).doc(document).delete();
+  }
 }
 
 Future registration(String email, String password) async {

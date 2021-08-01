@@ -80,8 +80,11 @@ class RoomService {
     String iceCandidate = "";
 
     for (int i = 0; (answer.length == 0 || iceCandidate.length == 0) && i < 3; i++) {
-      answer = await CommonService().get("rooms/${roomName}/inWait", user.name, "answer");
-      iceCandidate = await CommonService().get("rooms/${roomName}/inWait", user.name, "iceCandidate");
+      answer = await CommonService().get("rooms/$roomName/inWait", user.name, "answer");
+      iceCandidate = await CommonService().get("rooms/$roomName/inWait", user.name, "iceCandidate");
+    }
+    if (answer.length != 0 && iceCandidate.length != 0) {
+      CommonService().deleteDocument("rooms/$roomName/inWait", user.name);
     }
     setRemoteDescription(_peerConnection, answer, true);
     addCandidate(_peerConnection, user.iceCandidate);
