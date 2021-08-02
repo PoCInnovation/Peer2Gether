@@ -74,7 +74,7 @@ class RoomService {
 
   static Future connectUser(String roomName, RTCPeerConnection _peerConnection, User user) async {
     await createOffer(_peerConnection)
-        .then((value) => CommonService().add('rooms/${roomName}/inWait', user.name, {'offer': value}));
+        .then((value) => CommonService().add('rooms/$roomName/inWait', user.name, {'offer': value}));
 
     String answer = "";
     String iceCandidate = "";
@@ -82,9 +82,6 @@ class RoomService {
     for (int i = 0; (answer.length == 0 || iceCandidate.length == 0) && i < 3; i++) {
       answer = await CommonService().get("rooms/$roomName/inWait", user.name, "answer");
       iceCandidate = await CommonService().get("rooms/$roomName/inWait", user.name, "iceCandidate");
-    }
-    if (answer.length != 0 && iceCandidate.length != 0) {
-      CommonService().deleteDocument("rooms/$roomName/inWait", user.name);
     }
     setRemoteDescription(_peerConnection, answer, true);
     addCandidate(_peerConnection, user.iceCandidate);

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:peer_to_gether_app/ChatScreen/offer.dart';
-import 'package:peer_to_gether_app/RoomModel.dart';
 import 'package:peer_to_gether_app/RoomsService.dart';
 import 'package:peer_to_gether_app/commonService.dart';
 import 'package:peer_to_gether_app/user_model.dart';
@@ -102,7 +100,12 @@ class RoomScreenState extends State<RoomScreen> {
                   subtitle: Text('${user[index].message}'),
                   trailing: IconButton(
                       icon: Icon(Icons.person_add_alt),
-                      onPressed: () => RoomService.connectUser(widget.roomName, _peerConnection, user[index])));
+                      onPressed: () async {
+                        RoomService.connectUser(widget.roomName, _peerConnection, user[index]);
+                        await CommonService().deleteDocument('rooms/${widget.roomName}/inWait', user[index].name);
+                        RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
+                            .then((value) => setState(() => {user = value}));
+                      }));
             },
           ),
         ),

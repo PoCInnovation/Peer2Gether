@@ -12,8 +12,9 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 class WaitJoinScreen extends StatefulWidget {
   final String roomName;
+  final String userName;
 
-  WaitJoinScreen({this.roomName});
+  WaitJoinScreen({this.roomName, this.userName});
 
   @override
   WaitJoinScreenState createState() => WaitJoinScreenState();
@@ -74,7 +75,7 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
       print(_counter);
       if (_counter > 0) {
         try {
-          db.get('rooms/${widget.roomName}/inWait', 'Tom', 'offer').then((value) async {
+          db.get('rooms/${widget.roomName}/inWait', widget.userName, 'offer').then((value) async {
             if (value.length != 0)
               setState(() {
                 offer = value;
@@ -101,7 +102,7 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
     initRenderers();
     rtcService().initPeerConnection(_onDataChannel, (e) {
       if (e.candidate != null && !done) {
-        db.add('rooms/${widget.roomName}/inWait', 'Tom', {
+        db.add('rooms/${widget.roomName}/inWait', widget.userName, {
           "answer": answer,
           "iceCandidate": json.encode({
             'candidate': e.candidate.toString(),
