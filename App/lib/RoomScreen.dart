@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:peer_to_gether_app/RoomsService.dart';
 import 'package:peer_to_gether_app/commonService.dart';
