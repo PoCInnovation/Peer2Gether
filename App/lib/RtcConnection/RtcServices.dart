@@ -37,7 +37,16 @@ class rtcService {
 
     pc.onDataChannel = _onDataChannel;
     // pc.addStream(stream);
-    if (_onIceCandidate != null) pc.onIceCandidate = _onIceCandidate;
+    // if (_onIceCandidate != null) pc.onIceCandidate = _onIceCandidate;
+    pc.onIceCandidate = (e) {
+      if (e.candidate != null) {
+        print(json.encode({
+          'candidate': e.candidate.toString(),
+          'sdpMid': e.sdpMid.toString(),
+          'sdpMlineIndex': e.sdpMlineIndex,
+        }));
+      }
+    };
 
     pc.onIceConnectionState = (e) {
       print(e);
