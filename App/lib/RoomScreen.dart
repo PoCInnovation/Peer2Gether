@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:peer_to_gether_app/RoomsService.dart';
 import 'package:peer_to_gether_app/commonService.dart';
@@ -42,7 +44,11 @@ class RoomScreenState extends State<RoomScreen> {
     dataChannel.onMessage = (message) {
       if (message.type == MessageType.text) {
         print("message.text");
-        Message msg = Message(text: message.text, sender: currentUser, time: "now", unread: false);
+        Message msg = Message(
+            text: message.text,
+            sender: currentUser,
+            time: "now",
+            unread: false);
         setState(() {
           messages.add(msg);
         });
@@ -67,12 +73,16 @@ class RoomScreenState extends State<RoomScreen> {
     super.initState();
     initRenderers();
     rtcService()
-        .initPeerConnection(_onDataChannel, null, null, (stream) => {_remoteRenderer.srcObject = stream})
+        .initPeerConnection(_onDataChannel, null, null,
+            (stream) => {_remoteRenderer.srcObject = stream})
         .then((data) {
       _peerConnection = data.item1;
+      data.item2.onMessage = (e) => {print(e)};
+      data.item2.send(RTCDataChannelMessage("hello from home !"));
       // _localRenderer.srcObject = data.item3;
     });
-    RoomService.getAllUsers('rooms/${widget.roomName}/inWait').then((value) => setState(() => {user = value}));
+    RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
+        .then((value) => setState(() => {user = value}));
   }
 
   @override
@@ -85,9 +95,10 @@ class RoomScreenState extends State<RoomScreen> {
               IconButton(
                   icon: Icon(Icons.autorenew),
                   onPressed: () {
-                    RoomService.getAllUsers('rooms/${widget.roomName}/inWait').then((value) => {
-                          setState(() => {user = value})
-                        });
+                    RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
+                        .then((value) => {
+                              setState(() => {user = value})
+                            });
                   })
             ],
           ),
@@ -101,15 +112,20 @@ class RoomScreenState extends State<RoomScreen> {
                   trailing: IconButton(
                       icon: Icon(Icons.person_add_alt),
                       onPressed: () async {
-                        RoomService.connectUser(widget.roomName, _peerConnection, user[index]);
-                        await CommonService().deleteDocument('rooms/${widget.roomName}/inWait', user[index].name);
-                        RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
+                        RoomService.connectUser(
+                            widget.roomName, _peerConnection, user[index]);
+                        await CommonService().deleteDocument(
+                            'rooms/${widget.roomName}/inWait',
+                            user[index].name);
+                        RoomService.getAllUsers(
+                                'rooms/${widget.roomName}/inWait')
                             .then((value) => setState(() => {user = value}));
                       }));
             },
           ),
         ),
         onRefresh: () =>
-            RoomService.getAllUsers('rooms/${widget.roomName}/inWait').then((value) => setState(() => {user = value})));
+            RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
+                .then((value) => setState(() => {user = value})));
   }
 }

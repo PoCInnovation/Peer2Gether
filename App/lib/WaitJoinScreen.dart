@@ -114,6 +114,8 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
       }
     }, () => {}, (stream) => {_remoteRenderer.srcObject = stream}).then((data) {
       _peerConnection = data.item1;
+      data.item2.onMessage = (e) => {print(e)};
+      data.item2.send(RTCDataChannelMessage("hello from home !"));
       // _localRenderer.srcObject = data.item3;
     });
     startTimer();
