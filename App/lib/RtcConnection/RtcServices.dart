@@ -4,8 +4,9 @@ import 'dart:convert';
 import 'package:tuple/tuple.dart';
 
 class rtcService {
-  Future<Tuple3<RTCPeerConnection, RTCDataChannel, MediaStream>> initPeerConnection(
-      Function _onDataChannel, Function _onIceCandidate, Function _onIceConnectionState, Function _onAddStream) async {
+  Future<Tuple3<RTCPeerConnection, RTCDataChannel, MediaStream>>
+      initPeerConnection(Function _onDataChannel, Function _onIceCandidate,
+          Function _onIceConnectionState, Function _onAddStream) async {
     RTCDataChannelInit _dataChannelDict;
     RTCDataChannel dataChannel;
 
@@ -21,7 +22,8 @@ class rtcService {
       },
       "optional": [],
     };
-    RTCPeerConnection pc = await createPeerConnection(configuration, offerSdpConstraints);
+    RTCPeerConnection pc =
+        await createPeerConnection(configuration, offerSdpConstraints);
 
     _dataChannelDict = RTCDataChannelInit();
     _dataChannelDict.id = 1;
@@ -40,6 +42,7 @@ class rtcService {
     if (_onIceCandidate != null) pc.onIceCandidate = _onIceCandidate;
 
     pc.onIceConnectionState = (e) {
+      print("NEW STATE:");
       print(e);
     };
 
@@ -49,7 +52,8 @@ class rtcService {
   }
 
   Future<String> createOffer(RTCPeerConnection _peerConnection) async {
-    RTCSessionDescription description = await _peerConnection.createOffer({'offerToReceiveVideo': 1});
+    RTCSessionDescription description =
+        await _peerConnection.createOffer({'offerToReceiveVideo': 1});
     var session = parse(description.sdp);
 
     print(json.encode(session));
@@ -58,7 +62,8 @@ class rtcService {
   }
 
   Future<String> createAnswer(RTCPeerConnection _peerConnection) async {
-    RTCSessionDescription description = await _peerConnection.createAnswer({'offerToReceiveVideo': 1});
+    RTCSessionDescription description =
+        await _peerConnection.createAnswer({'offerToReceiveVideo': 1});
     var session = parse(description.sdp);
 
     print(json.encode(session));
@@ -66,17 +71,21 @@ class rtcService {
     return json.encode(session).toString();
   }
 
-  void setRemoteDescription(RTCPeerConnection _peerConnection, String _remoteDescription, bool _isOffer) async {
+  void setRemoteDescription(RTCPeerConnection _peerConnection,
+      String _remoteDescription, bool _isOffer) async {
     dynamic session = await jsonDecode('$_remoteDescription');
     String sdp = write(session, null);
-    RTCSessionDescription description = new RTCSessionDescription(sdp, _isOffer ? 'answer' : 'offer');
+    RTCSessionDescription description =
+        new RTCSessionDescription(sdp, _isOffer ? 'answer' : 'offer');
 
     await _peerConnection.setRemoteDescription(description);
   }
 
-  void addCandidate(RTCPeerConnection _peerConnection, String _candidate) async {
+  void addCandidate(
+      RTCPeerConnection _peerConnection, String _candidate) async {
     dynamic session = await jsonDecode('$_candidate');
-    dynamic candidate = new RTCIceCandidate(session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
+    dynamic candidate = new RTCIceCandidate(
+        session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
 
     await _peerConnection.addCandidate(candidate);
   }
@@ -89,7 +98,8 @@ class rtcService {
       },
     };
 
-    MediaStream stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
+    MediaStream stream =
+        await navigator.mediaDevices.getUserMedia(mediaConstraints);
     return stream;
   }
 }
