@@ -54,20 +54,15 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
         setState(() {
           messages.add(msg);
         });
-      } else {
-        // do something with message.binary
       }
     };
-    // or alternatively:
     dataChannel.messageStream.listen((message) {
       if (message.type == MessageType.text) {
         print(message.text);
-      } else {
-        // do something with message.binary
       }
     });
 
-    dataChannel.send(RTCDataChannelMessage('Hello !'));
+    dataChannel.send(RTCDataChannelMessage('Hello 2 !'));
   }
 
   void startTimer() async {
@@ -114,9 +109,7 @@ class WaitJoinScreenState extends State<WaitJoinScreen> {
       }
     }, () => {}, (stream) => {_remoteRenderer.srcObject = stream}).then((data) {
       _peerConnection = data.item1;
-      data.item2.onMessage = (e) => {print(e)};
       data.item2.send(RTCDataChannelMessage("hello from base !"));
-      // _localRenderer.srcObject = data.item3;
     });
     startTimer();
   }

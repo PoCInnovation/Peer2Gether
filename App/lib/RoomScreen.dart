@@ -50,16 +50,11 @@ class RoomScreenState extends State<RoomScreen> {
         setState(() {
           messages.add(msg);
         });
-      } else {
-        // do something with message.binary
       }
     };
-    // or alternatively:
     dataChannel.messageStream.listen((message) {
       if (message.type == MessageType.text) {
         print(message.text);
-      } else {
-        // do something with message.binary
       }
     });
 
@@ -75,9 +70,7 @@ class RoomScreenState extends State<RoomScreen> {
             (stream) => {_remoteRenderer.srcObject = stream})
         .then((data) {
       _peerConnection = data.item1;
-      data.item2.onMessage = (e) => {print(e)};
       data.item2.send(RTCDataChannelMessage("hello from home !"));
-      // _localRenderer.srcObject = data.item3;
     });
     RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
         .then((value) => setState(() => {user = value}));
