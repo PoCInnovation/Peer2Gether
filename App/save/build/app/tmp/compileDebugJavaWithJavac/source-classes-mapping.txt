@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/poc/peerotogether/peer_to_gether_app/BuildConfig.java
+ com.poc.peerotogether.peer_to_gether_app.BuildConfig

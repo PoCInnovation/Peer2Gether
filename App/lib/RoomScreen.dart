@@ -1,0 +1,122 @@
+import 'package:flutter/material.dart';
+import 'package:peer_to_gether_app/RoomsService.dart';
+import 'package:peer_to_gether_app/commonService.dart';
+import 'package:peer_to_gether_app/user_model.dart';
+
+import 'message_model.dart';
+import 'user_model.dart';
+import 'package:peer_to_gether_app/RtcConnection/RtcServices.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
+
+class RoomScreen extends StatefulWidget {
+  final String roomName;
+
+  RoomScreen({this.roomName});
+
+  @override
+  RoomScreenState createState() => RoomScreenState();
+}
+
+class RoomScreenState extends State<RoomScreen> {
+  List<User> user = [];
+  RTCPeerConnection _peerConnection;
+
+  RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
+  RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
+
+  CommonService db = CommonService();
+
+  @override
+  dispose() {
+    _localRenderer.dispose();
+    _remoteRenderer.dispose();
+    super.dispose();
+  }
+
+  initRenderers() async {
+    await _localRenderer.initialize();
+    await _remoteRenderer.initialize();
+  }
+
+  _onDataChannel(RTCDataChannel dataChannel) {
+    dataChannel.onMessage = (message) {
+      if (message.type == MessageType.text) {
+        print("message.text");
+        Message msg = Message(
+            text: message.text,
+            sender: currentUser,
+            time: "now",
+            unread: false);
+        setState(() {
+          messages.add(msg);
+        });
+      }
+    };
+    dataChannel.messageStream.listen((message) {
+      if (message.type == MessageType.text) {
+        print(message.text);
+      }
+    });
+
+    dataChannel.send(RTCDataChannelMessage('Hello!'));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initRenderers();
+    rtcService()
+        .initPeerConnection(_onDataChannel, null, null,
+            (stream) => {_remoteRenderer.srcObject = stream})
+        .then((data) {
+      _peerConnection = data.item1;
+      data.item2.send(RTCDataChannelMessage("hello from home !"));
+    });
+    RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
+        .then((value) => setState(() => {user = value}));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(widget.roomName),
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.autorenew),
+                  onPressed: () {
+                    RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
+                        .then((value) => {
+                              setState(() => {user = value})
+                            });
+                  })
+            ],
+          ),
+          body: ListView.builder(
+            itemCount: user.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('${user[index].name}'),
+                  subtitle: Text('${user[index].message}'),
+                  trailing: IconButton(
+                      icon: Icon(Icons.person_add_alt),
+                      onPressed: () async {
+                        RoomService.connectUser(
+                            widget.roomName, _peerConnection, user[index]);
+                        await CommonService().deleteDocument(
+                            'rooms/${widget.roomName}/inWait',
+                            user[index].name);
+                        RoomService.getAllUsers(
+                                'rooms/${widget.roomName}/inWait')
+                            .then((value) => setState(() => {user = value}));
+                      }));
+            },
+          ),
+        ),
+        onRefresh: () =>
+            RoomService.getAllUsers('rooms/${widget.roomName}/inWait')
+                .then((value) => setState(() => {user = value})));
+  }
+}
