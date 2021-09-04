@@ -50,7 +50,7 @@ room and accept it.
 
 ## Maintainers
 
-- [Alexandre Collin-Bétheuil](https://github.com/EpitAlexandre)
+- [Alexandre Collin-Bétheuil](https://github.com/AlexandreCollin)
 - [Benjamin Reigner](https://github.com/Breigner01)
 - [Nicolas Heude](https://github.com/nicolasheude)
 - [Quentin Fringhian](https://github.com/QuentinFringhian)
