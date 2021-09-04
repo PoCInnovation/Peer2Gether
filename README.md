@@ -25,6 +25,10 @@ Its reliability was what we were looking for.
 
 ## Installation
 
+As you will have understood, a recent version of Flutter is required to test the project.
+If you do not have Flutter, we refer you to their documentation for the installation and configuration of Flutter.
+> [Get Flutter](https://flutter.dev/docs/get-started/install) 
+
 ### Dependencies
 
 - flutter 2.7.0 - 3.0
