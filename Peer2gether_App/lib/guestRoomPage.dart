@@ -19,24 +19,31 @@ class _GuestRoomPageState extends State<GuestRoomPage> {
   final TextEditingController controller = new TextEditingController();
   int changeCounter = 0;
 
+  void getSdp() async {
+    await db.collection("rooms/${widget.roomName}/inWait").doc(widget.userName).get().then((document) {
+      RTCSessionDescription offer;
+      try {
+        offer = RTCSessionDescription(
+          document.get("sdp")["sdp"],
+          document.get("sdp")["type"],
+        );
+      } catch (e) {
+        print("An error occurred when application tried to get sdp");
+        changeCounter = 1;
+        return;
+      }
+      viewModel.answerConnection(offer, widget.roomName, widget.userName);
+    });
+  }
+
   Future<void> joinRoom() async {
     await db.collection("rooms/${widget.roomName}/inWait").doc(widget.userName).set({});
     await db.collection("rooms/${widget.roomName}/inWait").doc(widget.userName).snapshots().listen(
-      (DocumentSnapshot document) {
+      (DocumentSnapshot document) async {
         if (changeCounter == 1) {
           print("GET OFFER");
-          RTCSessionDescription offer;
-          try {
-            offer = RTCSessionDescription(
-              document.get("sdp")["sdp"],
-              document.get("sdp")["type"],
-            );
-          } catch (e) {
-            print("An error occurred when application tried to get sdp");
-            changeCounter = 1;
-            return;
-          }
-          viewModel.answerConnection(offer, widget.roomName, widget.userName);
+          Future.delayed(Duration(seconds: 1));
+          await getSdp();
         }
         changeCounter++;
       },
