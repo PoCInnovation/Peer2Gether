@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:peer2gether/commonService.dart';
 import 'package:peer2gether/creatorRoomPage.dart';
 import 'package:peer2gether/webrtc_viewmodel.dart';
 
 class CreateRoomPage extends StatefulWidget {
+  const CreateRoomPage({Key? key}) : super(key: key);
+
   @override
   _CreateRoomPageState createState() => _CreateRoomPageState();
 }

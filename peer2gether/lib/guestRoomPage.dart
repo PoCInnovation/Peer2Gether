@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -7,7 +10,8 @@ class GuestRoomPage extends StatefulWidget {
   final roomName;
   final userName;
 
-  GuestRoomPage({this.roomName, this.userName});
+  const GuestRoomPage({Key? key, this.roomName, this.userName})
+      : super(key: key);
 
   @override
   _GuestRoomPageState createState() => _GuestRoomPageState();
@@ -16,31 +20,47 @@ class GuestRoomPage extends StatefulWidget {
 class _GuestRoomPageState extends State<GuestRoomPage> {
   final WebRtcViewModel viewModel = WebRtcViewModel();
   final FirebaseFirestore db = FirebaseFirestore.instance;
-  final TextEditingController controller = new TextEditingController();
+  final TextEditingController controller = TextEditingController();
   int changeCounter = 0;
+  List<String> messages = [];
 
   Future<void> joinRoom() async {
-    await db.collection("rooms/${widget.roomName}/inWait").doc(widget.userName).set({});
-    await db.collection("rooms/${widget.roomName}/inWait").doc(widget.userName).snapshots().listen(
+    await db
+        .collection("rooms/${widget.roomName}/inWait")
+        .doc(widget.userName)
+        .set({});
+    db
+        .collection("rooms/${widget.roomName}/inWait")
+        .doc(widget.userName)
+        .snapshots()
+        .listen(
       (DocumentSnapshot document) {
-        if (changeCounter == 1) {
-          print("GET OFFER");
-          RTCSessionDescription offer;
-          try {
-            offer = RTCSessionDescription(
-              document.get("sdp")["sdp"],
-              document.get("sdp")["type"],
-            );
-          } catch (e) {
-            print("An error occurred when application tried to get sdp");
-            changeCounter = 1;
-            return;
-          }
-          viewModel.answerConnection(offer, widget.roomName, widget.userName);
+        if (changeCounter == 0) {
+          sleep(const Duration(seconds: 3));
+          changeCounter++;
+          return;
         }
-        changeCounter++;
+        print("GET OFFER");
+        RTCSessionDescription offer;
+        try {
+          offer = RTCSessionDescription(
+            document.get("sdp")["sdp"],
+            document.get("sdp")["type"],
+          );
+        } catch (e) {
+          print("An error occurred when application tried to get sdp");
+          return;
+        }
+        viewModel.answerConnection(
+            offer, widget.roomName, widget.userName, messageHandler);
       },
     );
+  }
+
+  void messageHandler(String message) {
+    setState(() {
+      messages.add(message);
+    });
   }
 
   @override
@@ -59,13 +79,22 @@ class _GuestRoomPageState extends State<GuestRoomPage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: Container(
-              child: Text("Messages here comming soon"),
+            child: ListView.builder(
+              itemCount: messages.length,
+              itemBuilder: (BuildContext messageContext, messagesIndex) {
+                return Column(
+                  children: [
+                    Text(
+                      messages[messagesIndex],
+                    ),
+                  ],
+                );
+              },
             ),
           ),
           TextField(
             controller: controller,
-            decoration: InputDecoration(border: OutlineInputBorder()),
+            decoration: const InputDecoration(border: OutlineInputBorder()),
             onSubmitted: (value) {
               viewModel.sendMessage(value);
               controller.clear();

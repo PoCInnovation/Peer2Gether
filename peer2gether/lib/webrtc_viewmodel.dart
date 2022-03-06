@@ -4,6 +4,8 @@ import 'package:mobx/mobx.dart';
 
 part 'webrtc_viewmodel.g.dart';
 
+typedef MessageHandler = Function(String value);
+
 Map<String, dynamic> _connectionConfiguration = {
   'iceServers': [
     {'url': 'stun:stun.l.google.com:19302'},
@@ -29,9 +31,11 @@ abstract class _WebRtcViewModelBase with Store {
   late String roomName;
   late String userName;
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  late MessageHandler _messageHandler;
 
   @action
-  Future<void> offerConnection(String _roomName, String _userName) async {
+  Future<void> offerConnection(
+      String _roomName, String _userName, MessageHandler messageHandler) async {
     _connection = await _createPeerConnection();
     await _createDataChannel();
     RTCSessionDescription offer =
@@ -39,18 +43,20 @@ abstract class _WebRtcViewModelBase with Store {
     await _connection.setLocalDescription(offer);
     roomName = _roomName;
     userName = _userName;
+    _messageHandler = messageHandler;
     _sdpChanged();
   }
 
   @action
-  Future<void> answerConnection(
-      RTCSessionDescription offer, String _roomName, String _userName) async {
+  Future<void> answerConnection(RTCSessionDescription offer, String _roomName,
+      String _userName, MessageHandler messageHandler) async {
     _connection = await _createPeerConnection();
     await _connection.setRemoteDescription(offer);
     final answer = await _connection.createAnswer(_offerAnswerConstraints);
     await _connection.setLocalDescription(answer);
     roomName = _roomName;
     userName = _userName;
+    _messageHandler = messageHandler;
     _sdpChanged();
   }
 
@@ -93,7 +99,7 @@ abstract class _WebRtcViewModelBase with Store {
   }
 
   Future<void> _createDataChannel() async {
-    RTCDataChannelInit dataChannelDict = new RTCDataChannelInit();
+    RTCDataChannelInit dataChannelDict = RTCDataChannelInit();
     RTCDataChannel channel =
         await _connection.createDataChannel("textchat-chan", dataChannelDict);
     _addDataChannel(channel);
@@ -102,7 +108,7 @@ abstract class _WebRtcViewModelBase with Store {
   void _addDataChannel(RTCDataChannel channel) {
     _dataChannel = channel;
     _dataChannel.onMessage = (data) {
-      print("new message: ${data.text}");
+      _messageHandler(data.text);
     };
     _dataChannel.onDataChannelState = (state) {
       print("STATE = $state");

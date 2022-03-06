@@ -28,18 +28,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(250, 250, 250, 1),
-        appBar: new AppBar(
+        backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
+        appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.black87,
-          title: Text("Peer2Gether"),
+          title: const Text("Peer2Gether"),
           centerTitle: false,
           actions: <Widget>[
             TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreateRoomPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateRoomPage()));
                 },
-                child: Text("Créer un salon"))
+                child: const Text("Créer un salon"))
           ],
         ),
         body: ListView.separated(
@@ -51,14 +54,14 @@ class _HomePageState extends State<HomePage> {
             return ListTile(
               title: Text(
                 rooms[index].name,
-                style: TextStyle(fontSize: 25),
+                style: const TextStyle(fontSize: 25),
               ),
               subtitle: Text(
                 rooms[index].music,
-                style: TextStyle(fontSize: 15),
+                style: const TextStyle(fontSize: 15),
               ),
               trailing: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_forward,
                   color: Colors.blue,
                 ),
@@ -67,23 +70,21 @@ class _HomePageState extends State<HomePage> {
                     context: context,
                     builder: (BuildContext popupContext) {
                       return CupertinoAlertDialog(
-                        title: Text("Choisissez un pseudo"),
-                        content: Container(
-                          child: CupertinoTextField(
-                            onSubmitted: (value) {
-                              if (value.isNotEmpty) {
-                                Navigator.of(popupContext).pop();
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => GuestRoomPage(
-                                      roomName: rooms[index].name,
-                                      userName: value,
-                                    ),
+                        title: const Text("Choisissez un pseudo"),
+                        content: CupertinoTextField(
+                          onSubmitted: (value) {
+                            if (value.isNotEmpty) {
+                              Navigator.of(popupContext).pop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => GuestRoomPage(
+                                    roomName: rooms[index].name,
+                                    userName: value,
                                   ),
-                                );
-                              }
-                            },
-                          ),
+                                ),
+                              );
+                            }
+                          },
                         ),
                       );
                     },

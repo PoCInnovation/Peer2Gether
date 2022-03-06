@@ -27,6 +27,7 @@ class _CreatorRoomPageState extends State<CreatorRoomPage> {
   late Stream<QuerySnapshot<Object?>>? collectionStream;
   bool tryToConnect = false;
   int connectionIndex = 0;
+  List<String> messages = [];
 
   @override
   void dispose() {
@@ -48,6 +49,12 @@ class _CreatorRoomPageState extends State<CreatorRoomPage> {
     collectionStream = FirebaseFirestore.instance
         .collection('rooms/${widget.roomName}/inWait')
         .snapshots();
+  }
+
+  void getMessage(String message) {
+    setState(() {
+      messages.add(message);
+    });
   }
 
   @override
@@ -130,7 +137,7 @@ class _CreatorRoomPageState extends State<CreatorRoomPage> {
                             onPressed: () {
                               viewModels.add(WebRtcViewModel());
                               viewModels[connectionIndex].offerConnection(
-                                  widget.roomName, document.id);
+                                  widget.roomName, document.id, getMessage);
                               Timer(const Duration(milliseconds: 400), () {
                                 db
                                     .collection(
@@ -181,27 +188,29 @@ class _CreatorRoomPageState extends State<CreatorRoomPage> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: 8,
-                  itemBuilder: (BuildContext messageContext, index) {
+                  itemCount: messages.length,
+                  itemBuilder: (BuildContext messageContext, messagesIndex) {
                     return Column(
-                      children: const [Text("data")],
+                      children: [
+                        Text(
+                          messages[messagesIndex],
+                        ),
+                      ],
                     );
                   },
                 ),
               ),
-              Container(
-                child: TextField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Message",
-                  ),
-                  controller: controller,
-                  onSubmitted: (value) {
-                    for (var element in viewModels) {
-                      element.sendMessage(value);
-                    }
-                  },
+              TextField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Message",
                 ),
+                controller: controller,
+                onSubmitted: (value) {
+                  for (var element in viewModels) {
+                    element.sendMessage(value);
+                  }
+                },
               )
             ],
           );
