@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:peer2gether/commonService.dart';
 import 'package:peer2gether/webrtc_viewmodel.dart';
 
 class GuestRoomPage extends StatefulWidget {
@@ -24,6 +26,27 @@ class _GuestRoomPageState extends State<GuestRoomPage> {
   int changeCounter = 0;
   List<String> messages = [];
 
+  Future<void> connectNewUser() async {
+    RTCSessionDescription offer;
+
+    DocumentReference doc =
+        db.collection("rooms/${widget.roomName}/inWait").doc(widget.userName);
+
+    var sdp = (await doc.get()).get("sdp");
+    try {
+      offer = RTCSessionDescription(
+        sdp["sdp"],
+        sdp["type"],
+      );
+    } catch (e) {
+      print("An error occurred when application tried to get sdp");
+      return;
+    }
+
+    viewModel.answerConnection(
+        offer, widget.roomName, widget.userName, messageHandler);
+  }
+
   Future<void> joinRoom() async {
     await db
         .collection("rooms/${widget.roomName}/inWait")
@@ -35,24 +58,13 @@ class _GuestRoomPageState extends State<GuestRoomPage> {
         .snapshots()
         .listen(
       (DocumentSnapshot document) {
-        if (changeCounter == 0) {
+        if (changeCounter == 1) {
           sleep(const Duration(seconds: 3));
+          connectNewUser();
           changeCounter++;
           return;
         }
-        print("GET OFFER");
-        RTCSessionDescription offer;
-        try {
-          offer = RTCSessionDescription(
-            document.get("sdp")["sdp"],
-            document.get("sdp")["type"],
-          );
-        } catch (e) {
-          print("An error occurred when application tried to get sdp");
-          return;
-        }
-        viewModel.answerConnection(
-            offer, widget.roomName, widget.userName, messageHandler);
+        changeCounter++;
       },
     );
   }
